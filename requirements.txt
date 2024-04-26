@@ -1,6 +1,7 @@
 django
+django-cors-headers
 djangorestframework
+djangorestframework-simplejwt
 pyyaml
 requests
-django-cors-headers
 wfastcgi

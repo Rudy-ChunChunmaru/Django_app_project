@@ -5,13 +5,10 @@ from rest_framework.permissions import AllowAny
 from .serializer import UserSerializer
 
 # Create your views here.
-class ListCreateUserView(generics.GenericAPIView):
+class ListCreateUserView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes =[AllowAny]
-
-    def get(self, request, *args, **kwargs):
-        return Response({"amana"})    
 
 
 class GetUserView(generics.ListAPIView):

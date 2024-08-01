@@ -1,8 +1,16 @@
+import { Route, Routes } from "react-router-dom";
+import Index from "./pages/common";
+import ErrorRouter from "./pages/common/error-router";
+import Login from "./pages/common/login";
+import ErrorNotFound from "./pages/common/error-notfound";
+
 function App() {
   return (
-    <div className="w-full">
-      <div>test</div>
-    </div>
+    <Routes>
+      <Route index element={<Index />} errorElement={<ErrorRouter />} />
+      <Route path="login" element={<Login />} />
+      <Route path="*" element={<ErrorNotFound />} />
+    </Routes>
   );
 }
 

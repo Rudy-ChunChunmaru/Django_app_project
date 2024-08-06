@@ -7,17 +7,34 @@ import ErrorNotFound from "./pages/common/error-notfound";
 
 import User from "./pages/apps/common/user";
 import Group from "./pages/apps/common/group";
+import ProtectedRoute from "./components/protected-route";
+import Logout from "./pages/common/logout";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="" element={<Index />} errorElement={<ErrorRouter />}>
-          <Route path="user" element={<User />} />
-          <Route path="group" element={<Group />} />
+          <Route
+            path="user"
+            element={
+              <ProtectedRoute>
+                <User />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="group"
+            element={
+              <ProtectedRoute>
+                <Group />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
         <Route path="login" element={<Login />} />
+        <Route path="logout" element={<Logout />} />
         <Route path="*" element={<ErrorNotFound />} />
       </Routes>
     </>

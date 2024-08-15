@@ -60,9 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     "corsheaders",
-    "app_users",
-    "app_groups",
-    "app_auth",
+    "app",
 ]
 
 MIDDLEWARE = [
@@ -106,7 +104,7 @@ DEV_POSTGRESQL_DB = {
     'USER': os.getenv("POSTGRESQL_LOCAL_USER"),
     'PASSWORD': os.getenv("POSTGRESQL_LOCAL_PWD"),
     'HOST': os.getenv("POSTGRESQL_LOCAL_HOST"),
-    'PORT': os.getenv("POSTGRESQL_LOCAL_PORT")
+    'PORT': os.getenv("POSTGRESQL_LOCAL_PORT"),
 }
 
 DEV_MYSQL_DB = {
@@ -115,7 +113,7 @@ DEV_MYSQL_DB = {
     'USER': os.getenv("MYSQL_LOCAL_USER"),
     'PASSWORD': os.getenv("MYSQL_LOCAL_PASSWORD"),
     'HOST': os.getenv("MYSQL_LOCAL_HOST"),
-    'PORT': os.getenv("MYSQL_LOCAL_PORT")
+    'PORT': os.getenv("MYSQL_LOCAL_PORT"),
 }
 
 DATABASES = {

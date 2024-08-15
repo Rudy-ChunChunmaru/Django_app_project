@@ -19,7 +19,7 @@ const Login = (props: Props) => {
       const res = await api.post("api/token/", { username, password });
       if (res) {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
-        // console.info(res.data.access);
+        console.info(res.data.access);
 
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
         // console.info(res.data.refresh);

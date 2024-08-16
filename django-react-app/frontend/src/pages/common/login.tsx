@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../logic/api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../logic/constants";
+import {
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+  USER_ID,
+  USER_NAME,
+} from "../../logic/constants";
 
 type Props = {};
 
@@ -16,12 +21,17 @@ const Login = (props: Props) => {
     e.preventDefault();
 
     try {
-      const res = await api.post("api/token/", { username, password });
+      const res = await api.post("api/web/auth/", { username, password });
       if (res) {
-        localStorage.setItem(ACCESS_TOKEN, res.data.access);
-        console.info(res.data.access);
-
-        localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+        console.info(res.data);
+        localStorage.setItem(USER_ID, res.data.user.id);
+        localStorage.setItem(
+          USER_NAME,
+          `${res.data.user.first_name} ${res.data.user.last_name}`
+        );
+        localStorage.setItem(ACCESS_TOKEN, res.data.token.access);
+        // console.info(res.data.access);
+        localStorage.setItem(REFRESH_TOKEN, res.data.token.refresh);
         // console.info(res.data.refresh);
         navigate("/");
       } else {

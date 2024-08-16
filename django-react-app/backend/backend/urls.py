@@ -25,5 +25,5 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="get_token"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
     #  app
-    path("api/app/", include("app.urls")),
+    path("api/web/", include("web.urls")),
 ]

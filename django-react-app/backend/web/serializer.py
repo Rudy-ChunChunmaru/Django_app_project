@@ -35,19 +35,13 @@ class MenuSerializer(serializers.ModelSerializer):
         fields = ['intWebMenu_id','strWebMenu_name','strWebMenu_route']
 
 class UserMenuPermissionSerializer(serializers.ModelSerializer):
-    menus = serializers.SerializerMethodField()
-    # user = UserSerializer(many=True,read_only=True)
-
     class Meta:
         model = user_web_menu_permission
         fields = [
-                'intAuthUserWebPermision_id','intWebMenu_id','intUser_id',
-                'menus'
+                'intAuthUserWebPermision_id','intUser_id_id','intWebMenu_id_id',
                 ]
     
-    def get_menus(slef,obj):
-        menus =  menu.objects.filter(intWebMenu_id=obj.intWebMenu_id)
-        return MenuSerializer(menus,many=True,read_only=True)
+   
         
     
 

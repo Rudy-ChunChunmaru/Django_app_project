@@ -28,13 +28,15 @@ class AuthUserLogin(APIView):
         if(username and password):
             user = authenticate(request,username=username,password=password)
             if user is not None:
-                queryset = User.objects.filter(username__icontains=user).first()
-                resultUser = UserSerializer(queryset)
+                querysetUser = User.objects.filter(username__icontains=user).first()
+                resultUser = UserSerializer(querysetUser)
                 # print(resultUser.data['id'])
-                resultMenu = UserMenuPermissionSerializer(user_web_menu_permission.objects.filter(intUser_id__icontains=resultUser.data['id']))
+                # querysetMenu = user_web_menu_permission.objects.filter(intUser_id_id = resultUser.data['id'])
+                # resultMenu = UserMenuPermissionSerializer(querysetMenu)
+                # print(resultMenu.data)
                 return Response(data={
                     'user': resultUser.data,
-                    'menu': resultMenu.data,
+                    # 'menu': resultMenu.data,
                     'token' : get_tokens_for_user(user)
                     }, status=status.HTTP_200_OK)
             else:

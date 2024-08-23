@@ -38,7 +38,7 @@ class UserMenuPermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = user_web_menu_permission
         fields = [
-                'intAuthUserWebPermision_id','intUser_id_id','intWebMenu_id_id',
+                'intAuthUserWebPermision_id','intUser_id','intWebMenu_id',
                 ]
     
    

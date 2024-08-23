@@ -9,12 +9,12 @@ class Permission(admin.ModelAdmin):
 
 @admin.register(menu)
 class menu(admin.ModelAdmin):
-    list_display = ('intWebMenu_id','strWebMenu_name', 'strWebMenu_route','strWebMenu_childernId')
+    list_display = ('intWebMenu_id','intWebMenu_childernId','intWebMenu_rank','intDjangoContentType','strWebMenu_title','strWebMenu_name', 'strWebMenu_route')
 
 @admin.register(user_web_menu_permission)
 class user_web_menu_permission(admin.ModelAdmin):
-    list_display = ('intAuthUserWebPermision_id','intWebMenu_id', 'intUser_id')
+    list_display = ('intAuthUserWebPermision_id','intWebMenu', 'intUser')
 
 @admin.register(group_web_menu_permission)
 class group_web_menu_permission(admin.ModelAdmin):
-    list_display = ('intAuthUserWebPermision_id','intWebMenu_id', 'intGroup_id')
+    list_display = ('intAuthGroupWebPermision_id','intWebMenu', 'intGroup')

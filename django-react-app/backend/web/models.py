@@ -5,10 +5,12 @@ from django.contrib.contenttypes.models import ContentType
 # Create your models here.
 class menu(models.Model):
     intWebMenu_id = models.AutoField(primary_key=True)
-    intdjangoContentType_id = models.ForeignKey(to=ContentType,on_delete=models.CASCADE,null=True,blank=True)
+    intDjangoContentType = models.ForeignKey(to=ContentType,on_delete=models.CASCADE,null=True,blank=True)
+    strWebMenu_title = models.CharField(max_length=50,null=True,blank=True)
     strWebMenu_name = models.CharField(max_length=50)
-    strWebMenu_route = models.CharField(max_length=50)
-    strWebMenu_childernId = models.IntegerField(null=True)
+    strWebMenu_route = models.CharField(max_length=50,null=True,blank=True)
+    intWebMenu_rank = models.IntegerField(null=True)
+    intWebMenu_childernId = models.IntegerField(null=True,blank=True)
 
     class Meta:
         permissions = []
@@ -18,16 +20,16 @@ class menu(models.Model):
 
 class user_web_menu_permission(models.Model):
     intAuthUserWebPermision_id = models.AutoField(primary_key=True)
-    intWebMenu_id = models.ForeignKey(to=menu,on_delete=models.RESTRICT)
-    intUser_id = models.ForeignKey(to=User,on_delete=models.RESTRICT)
+    intWebMenu = models.ForeignKey(to=menu,on_delete=models.RESTRICT)
+    intUser = models.ForeignKey(to=User,on_delete=models.RESTRICT)
 
     class Meta:
         permissions = []
 
 class group_web_menu_permission(models.Model):
-    intAuthUserWebPermision_id = models.AutoField(primary_key=True)
-    intWebMenu_id = models.ForeignKey(to=menu,on_delete=models.RESTRICT)
-    intGroup_id = models.ForeignKey(to=Group,on_delete=models.RESTRICT)
+    intAuthGroupWebPermision_id = models.AutoField(primary_key=True)
+    intWebMenu = models.ForeignKey(to=menu,on_delete=models.RESTRICT)
+    intGroup = models.ForeignKey(to=Group,on_delete=models.RESTRICT)
 
     class Meta:
         permissions = []

@@ -1,4 +1,5 @@
 # TODO Use Simple JWT To Get Token
+
 from rest_framework_simplejwt.tokens import RefreshToken
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -16,8 +17,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny,IsAuthenticated
 
 from django.contrib.auth.models import User
-from ..serializer import UserSerializer,UserMenuPermissionSerializer
-from ..models import user_web_menu_permission
+from ..serializer import UserSerializer,UserMenuPermissionSerializer,UserGroupSerializer
+from ..models import user_menu_permission
 
 class AuthUserLogin(APIView):
     permission_classes = [AllowAny]
@@ -28,10 +29,14 @@ class AuthUserLogin(APIView):
         if(username and password):
             user = authenticate(request,username=username,password=password)
             if user is not None:
-                querysetUser = User.objects.filter(username__icontains=user).first()
+                querysetUser = User.objects.filter(username=user).first()
                 resultUser = UserSerializer(querysetUser)
+
+                # resultGroup = UserGroupSerializer(querysetUser)
+                # print(resultGroup.data)
+
                 # print(resultUser.data['id'])
-                # querysetMenu = user_web_menu_permission.objects.filter(intUser_id_id = resultUser.data['id'])
+                # querysetMenu = user_menu_permission.objects.filter(intUser_id_id = resultUser.data['id'])
                 # resultMenu = UserMenuPermissionSerializer(querysetMenu)
                 # print(resultMenu.data)
                 return Response(data={

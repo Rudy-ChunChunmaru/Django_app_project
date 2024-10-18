@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Permission
-from .models import menu,user_web_menu_permission,group_web_menu_permission
+from .models import menu,user_menu_permission,group_menu_permission
 
 # Register your models here.
 @admin.register(Permission)
@@ -9,12 +9,12 @@ class Permission(admin.ModelAdmin):
 
 @admin.register(menu)
 class menu(admin.ModelAdmin):
-    list_display = ('intWebMenu_id','intWebMenu_childernId','intWebMenu_rank','intDjangoContentType','strWebMenu_title','strWebMenu_name', 'strWebMenu_route')
+    list_display = ('intMenu_id','intMenu_childernId','intMenu_rank','strMenu_title','strMenu_name', 'strMenu_route')
 
-@admin.register(user_web_menu_permission)
-class user_web_menu_permission(admin.ModelAdmin):
-    list_display = ('intAuthUserWebPermision_id','intWebMenu', 'intUser')
+@admin.register(user_menu_permission)
+class user_menu_permission(admin.ModelAdmin):
+    list_display = ('intAuthUserPermision_id','intMenu_id', 'intUser_id')
 
-@admin.register(group_web_menu_permission)
-class group_web_menu_permission(admin.ModelAdmin):
-    list_display = ('intAuthGroupWebPermision_id','intWebMenu', 'intGroup')
+@admin.register(group_menu_permission)
+class group_menu_permission(admin.ModelAdmin):
+    list_display = ('intAuthGroupPermision_id','intMenu_id', 'intGroup_id')

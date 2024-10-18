@@ -98,26 +98,33 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DEV_POSTGRESQL_DB = {
-    'ENGINE': os.getenv("POSTGRESQL_LOCAL_ENGINE"),
-    'NAME': os.getenv("POSTGRESQL_LOCAL_NAME"),
-    'USER': os.getenv("POSTGRESQL_LOCAL_USER"),
-    'PASSWORD': os.getenv("POSTGRESQL_LOCAL_PWD"),
-    'HOST': os.getenv("POSTGRESQL_LOCAL_HOST"),
-    'PORT': os.getenv("POSTGRESQL_LOCAL_PORT"),
-}
+# DEV_POSTGRESQL_DB = {
+#     'ENGINE': os.getenv("POSTGRESQL_LOCAL_ENGINE"),
+#     'NAME': os.getenv("POSTGRESQL_LOCAL_NAME"),
+#     'USER': os.getenv("POSTGRESQL_LOCAL_USER"),
+#     'PASSWORD': os.getenv("POSTGRESQL_LOCAL_PWD"),
+#     'HOST': os.getenv("POSTGRESQL_LOCAL_HOST"),
+#     'PORT': os.getenv("POSTGRESQL_LOCAL_PORT"),
+# }
 
-DEV_MYSQL_DB = {
-    'ENGINE': os.getenv("MYSQL_LOCAL_ENGINE"),
-    'NAME': os.getenv("MYSQL_LOCAL_NAME"),
-    'USER': os.getenv("MYSQL_LOCAL_USER"),
-    'PASSWORD': os.getenv("MYSQL_LOCAL_PASSWORD"),
-    'HOST': os.getenv("MYSQL_LOCAL_HOST"),
-    'PORT': os.getenv("MYSQL_LOCAL_PORT"),
-}
+# DEV_MYSQL_DB = {
+#     'ENGINE': os.getenv("MYSQL_LOCAL_ENGINE"),
+#     'NAME': os.getenv("MYSQL_LOCAL_NAME"),
+#     'USER': os.getenv("MYSQL_LOCAL_USER"),
+#     'PASSWORD': os.getenv("MYSQL_LOCAL_PASSWORD"),
+#     'HOST': os.getenv("MYSQL_LOCAL_HOST"),
+#     'PORT': os.getenv("MYSQL_LOCAL_PORT"),
+# }
+
+# DATABASES = {
+#     'default': DEV_MYSQL_DB
+# }
 
 DATABASES = {
-    'default': DEV_MYSQL_DB
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 

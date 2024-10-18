@@ -21,7 +21,7 @@ const Login = (props: Props) => {
     e.preventDefault();
 
     try {
-      const res = await api.post("api/web/auth/", { username, password });
+      const res = await api.post("api/token/auth/", { username, password });
       if (res) {
         console.info(res.data);
         localStorage.setItem(USER_ID, res.data.user.id);

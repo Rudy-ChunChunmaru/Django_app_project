@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User,Group
 from rest_framework import serializers
 
-from .models import menu,user_web_menu_permission,group_web_menu_permission
+from .models import menu,user_menu_permission,group_menu_permission
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,10 +24,8 @@ class UserGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "id","username","first_name","last_name","password",
-            "groups"
-            ]
-        extra_kwargs = {"password" : {"write_only" : True}}
+            "id","username","first_name","last_name","groups"
+        ]
 
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,7 +34,7 @@ class MenuSerializer(serializers.ModelSerializer):
 
 class UserMenuPermissionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = user_web_menu_permission
+        model = user_menu_permission
         fields = [
                 'intAuthUserWebPermision_id','intUser_id','intWebMenu_id',
                 ]

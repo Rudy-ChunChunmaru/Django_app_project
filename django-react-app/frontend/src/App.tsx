@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 import Index from "./pages/common";
 import ErrorRouter from "./pages/common/error-router";
@@ -9,12 +9,15 @@ import User from "./pages/apps/common/user";
 import Group from "./pages/apps/common/group";
 import ProtectedRoute from "./components/protected-route";
 import Logout from "./pages/common/logout";
+import Log from "./pages/common/log";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="" element={<Index />} errorElement={<ErrorRouter />}>
+        <Route index element={<Index />}></Route>
+
+        <Route path="log" element={<Log />} errorElement={<ErrorRouter />}>
           <Route
             path="user"
             element={

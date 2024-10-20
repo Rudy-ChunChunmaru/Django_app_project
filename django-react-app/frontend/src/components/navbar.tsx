@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ACCESS_TOKEN, USER_NAME } from "../logic/constants";
 import { useNavigate } from "react-router-dom";
+import NavbarMenu from "./navbar-menu";
 
 const Navbar = () => {
   const [loginStatus, setLoginStatus] = useState(false);
@@ -31,7 +32,7 @@ const Navbar = () => {
     return (
       <div
         className="rounded-sm bg-green-300 px-1 transition-colors hover:bg-green-500"
-        onClick={() => navigate("login")}
+        onClick={() => navigate("/login")}
       >
         <strong>Login</strong>
       </div>
@@ -41,7 +42,7 @@ const Navbar = () => {
     return (
       <div
         className="rounded-sm bg-red-300 px-1 transition-colors hover:bg-red-500"
-        onClick={() => navigate("logout")}
+        onClick={() => navigate("/logout")}
       >
         <strong>Logout</strong>
       </div>
@@ -51,7 +52,7 @@ const Navbar = () => {
   const LoadMenu = () => {
     return (
       <div className="flex w-full border-t-2">
-        <>load menu</>
+        <NavbarMenu />
       </div>
     );
   };

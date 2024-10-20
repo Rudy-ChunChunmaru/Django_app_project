@@ -5,11 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import api from "../logic/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../logic/constants";
 
-type Props = {
-  children: JSX.Element;
-};
-
-const ProtectedRoute = ({ children }: Props) => {
+const ProtectedRoute = async (children: JSX.Element) => {
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
   const auth = async () => {
@@ -20,7 +16,7 @@ const ProtectedRoute = ({ children }: Props) => {
     }
 
     const decode: any = jwtDecode(token);
-    // console.log(decode);
+    console.log(decode);
     const tokenExpiration = decode.exp;
     const now = Date.now() / 1000;
 
@@ -48,6 +44,7 @@ const ProtectedRoute = ({ children }: Props) => {
     }
   };
 
+  await auth();
   return isAuthorized ? children : <Navigate to={"/login"} />;
 };
 

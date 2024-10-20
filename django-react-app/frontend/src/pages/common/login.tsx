@@ -21,7 +21,7 @@ const Login = (props: Props) => {
     e.preventDefault();
 
     try {
-      const res = await api.post("api/token/auth/", { username, password });
+      const res = await api.post("api/web/auth/", { username, password });
       if (res) {
         console.info(res.data);
         localStorage.setItem(USER_ID, res.data.user.id);
@@ -51,7 +51,7 @@ const Login = (props: Props) => {
     <div className="fixed flex h-full w-full items-center justify-center">
       <form
         onSubmit={loginAction}
-        className="flex w-[40%] flex-col items-center justify-center gap-2 rounded-xl border-4 border-black bg-slate-200 px-5 py-3"
+        className="flex w-[80%] min-w-80 flex-col items-center justify-center gap-2 rounded-xl border-4 border-black bg-slate-200 px-5 py-3 sm:w-[60%]"
       >
         <div className="flex w-full justify-center">
           <h1>
@@ -61,22 +61,24 @@ const Login = (props: Props) => {
           </h1>
         </div>
         <br></br>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          placeholder="Username"
-          className="w-full rounded-lg border-2 p-1"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Password"
-          className="w-full rounded-lg border-2 p-1"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="flex w-[70%] flex-col justify-center">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+            className="w-full rounded-lg border-2 p-1"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            className="w-full rounded-lg border-2 p-1"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
         <br></br>
         <button
           type="submit"

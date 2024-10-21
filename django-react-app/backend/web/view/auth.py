@@ -18,7 +18,7 @@ from rest_framework.permissions import AllowAny,IsAuthenticated
 
 from django.contrib.auth.models import User
 from ..serializer import UserSerializer,UserMenuPermissionSerializer
-from ..models import user_menu_permission
+from ..models import menu,user_menu_permission
 
 class AuthUserLogin(APIView):
     permission_classes = [AllowAny]
@@ -26,21 +26,25 @@ class AuthUserLogin(APIView):
     def post(self, request):
         reqUsername = request.data.get('username')
         reqPassword = request.data.get('password')
+        return Response(data={'detail' : 'username and password invalid !!!'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def get(self, request):
+        reqUsername = request.data.get('username')
+        reqPassword = request.data.get('password')
         if(reqUsername and reqPassword):
             strusername = authenticate(request,username=reqUsername,password=reqPassword)
             if strusername is not None:
-                querysetUser = User.objects.filter(username=strusername).first()
-                # print(querysetUser.values().first())
-                resultUser = UserSerializer(querysetUser,many=False)
-                print(resultUser.data)
+                # querysetUser = User.objects.filter(username=strusername).first()
+                # resultUser = UserSerializer(querysetUser,many=False)
+                # print(resultUser.data)
                 # resultGroup = UserGroupSerializer(querysetUser)
                 # print(resultGroup.data)
                 # print(resultUser.data['id'])
-                querysetMenu = user_menu_permission.objects.filter(intUser_id_id = resultUser.data['id']).first()
-                resultMenu = UserMenuPermissionSerializer(querysetMenu,many=False)
-                print(resultMenu.data)
+                # querysetMenu = user_menu_permission.objects.filter(intUser_id_id = resultUser.data['id']).first()
+                # resultMenu = UserMenuPermissionSerializer(querysetMenu,many=True)
+                # print(resultMenu.data)
                 return Response(data={
-                    # 'user': querysetUser.values,
+                    # 'user': resultUser.data,
                     # 'menu': resultMenu.data,
                     'token' : get_tokens_for_user(strusername)
                     }, status=status.HTTP_200_OK)

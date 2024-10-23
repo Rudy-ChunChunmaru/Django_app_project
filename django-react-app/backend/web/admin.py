@@ -9,7 +9,7 @@ class Permission(admin.ModelAdmin):
 
 @admin.register(menu)
 class menu(admin.ModelAdmin):
-    list_display = ('intMenu_id','intMenu_childernId','intMenu_rank','strMenu_title','strMenu_name', 'strMenu_route')
+    list_display = ('intMenu_id','intMenu_childernId','intMenu_rank','strMenu_title','strMenu_route')
 
 @admin.register(user_menu_permission)
 class user_menu_permission(admin.ModelAdmin):

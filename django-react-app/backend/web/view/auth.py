@@ -14,11 +14,10 @@ from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.permissions import AllowAny
 
-from django.contrib.auth.models import User,Group
-from ..serializer import UserSerializer,UserGroupSerializer,UserMenuPermissionSerializer,UserAuthDetailInfoSerializer
-from ..models import Menu,User_menu_permission
+from ..serializer import UserAuthDetailInfoSerializer
+import jwt
 
 class AuthUserLogin(APIView):
     permission_classes = [AllowAny]
@@ -29,13 +28,9 @@ class AuthUserLogin(APIView):
         if(reqUsername and reqPassword):
             strusername = authenticate(request,username=reqUsername,password=reqPassword)
             if strusername is not None:
-                querysetUser = User.objects.filter(username=strusername).first()
-                resultUser = UserAuthDetailInfoSerializer(querysetUser,many=False)
-                print(resultUser.data)
-               
+             
                 return Response(data={
-                    # 'user_detail': resultUserGroup.data,
-                    'menu': '',
+                    'data': jwt.encode(UserAuthDetailInfoSerializer(username=strusername).resultUser(),'secret', algorithm='HS256'),
                     'token' : get_tokens_for_user(strusername)
                     }, status=status.HTTP_200_OK)
             else:

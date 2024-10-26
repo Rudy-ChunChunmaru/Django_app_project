@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User,Group
 from rest_framework import serializers
 
-from .models import menu,user_menu_permission,group_menu_permission
+from .models import Menu,User_menu_permission,Group_menu_permission
 from django.contrib.auth.hashers import make_password
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,28 +24,49 @@ class UserGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = [
-            "id","username","first_name","last_name","groups"
-        ]
+        fields = ["id","username","first_name","last_name","groups"]
 
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
-        model = menu
-        fields = ['intMenu_id','strMenu_title','strMenu_route']
+        model = Menu
+        fields = ['id','Menu_title','Menu_route']
 
 class UserMenuPermissionSerializer(serializers.ModelSerializer):
+    User = UserSerializer(many=False, read_only=True)
+    Menu = MenuSerializer(many=False, read_only=True)
     class Meta:
-        model = user_menu_permission
-        fields = [
-                'intAuthUserPermision_id','intUser_id','intMenu_id'
-                ]
+        model = User_menu_permission
+        fields = ['id',
+        'User',
+        'Menu'
+        ]
 
 class GroupMenuPermissionSerializer(serializers.ModelSerializer):
+    Group = GroupSerializer(many=False, read_only=True)
+    Menu = MenuSerializer(many=False, read_only=True)
     class Meta:
-        model = user_menu_permission
+        model = Group_menu_permission
+        fields = ['id',
+        'Group',
+        'Menu'
+        ]
+
+
+# TODO-1: GET USER Auth Detail Info 
+class UserAuthDetailInfoSerializer(serializers.ModelSerializer):
+    groups = GroupSerializer(many=True,read_only=True)
+    user_menu_permissions = serializers.SlugRelatedField(many=True,read_only=True,slug_field='Menu')
+
+    class Meta:
+        model=User
         fields = [
-                'intAuthUserPermision_id','intUser_id','intWebMenu_id'
-                ]
+            "id","username","first_name","last_name",
+            "groups",
+            "user_menu_permissions",
+        ]
+        
+
+
     
    
         

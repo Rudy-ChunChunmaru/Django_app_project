@@ -1,0 +1,11 @@
+.venv/
+.idx/
+
+/backend/__pycache__/
+
+/web/migrations/
+/web/__pycache__/
+/web/view/__pycache__/
+
+
+/test/__pycache__/

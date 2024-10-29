@@ -3,8 +3,8 @@ from .view import auth,user
 
 urlpatterns = [
     # auth
-    path("auth/",auth.AuthUserLogin.as_view(), name="user_auth"),
+    path("auth/",auth.AuthUserLogin.as_view(), name="web_auth"),
     # user
-    path("user/",user.ListCreateUserView.as_view(), name="user_RegisterList"),
-    path("user/<int:id>/",user.GetUserView.as_view(), name="user_Get"),
+    path("user/",user.UserView.as_view(), name="user"),
+    path("user/<str:username>/",user.UserView.as_view(), name="user_username"),
 ]

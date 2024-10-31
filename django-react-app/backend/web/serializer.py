@@ -4,15 +4,25 @@ from rest_framework import serializers
 from .models import Menu,UserMenuPermission,GroupMenuPermission
 from django.contrib.auth.hashers import make_password
 
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id","username","first_name","last_name","password"]
+        fields = ["username","password","first_name","last_name","email","is_staff","is_superuser","is_active","date_joined","last_login"]
         extra_kwargs = {"password" : {"write_only" : True}}
 
     def create(self,validated_data):
-        user = User.objects.create_user(**validated_data)
+        user = User.objects.create(**validated_data)
         return user
+
+    def update(self,instance,validated_data):
+        instance.username = validated_data.get('username',instance.username)
+        instance.save()
+        return instance
+
+    def delete(self,instance):
+        instance.delete()
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -90,9 +100,6 @@ class UserAuthDetailInfoSerializer(serializers.Serializer):
                 AllListMenu.append(listmenugroup)
 
         return AllListMenu
-        
-
-    
         
 
 

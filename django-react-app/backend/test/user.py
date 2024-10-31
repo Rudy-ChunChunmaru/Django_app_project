@@ -10,7 +10,7 @@ dataHeader = {
 }
 
 dataJson = {
-    "username":"rudy"
+
 }
 
 get_response = requests.get(endpoint,headers=dataHeader, json=dataJson)

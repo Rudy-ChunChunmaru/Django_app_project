@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 import api from "../logic/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../logic/constants";
 
-const ProtectedRoute = async (children: JSX.Element) => {
-  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+type ProtectedRouteType = {
+  children: JSX.Element;
+};
+
+const ProtectedRoute = ({ children }: ProtectedRouteType) => {
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(true);
+
+  useLayoutEffect(() => {
+    auth();
+  }, [isAuthorized]);
 
   const auth = async () => {
     const token = localStorage.getItem(ACCESS_TOKEN);
@@ -16,7 +24,7 @@ const ProtectedRoute = async (children: JSX.Element) => {
     }
 
     const decode: any = jwtDecode(token);
-    console.log(decode);
+    // console.log(decode);
     const tokenExpiration = decode.exp;
     const now = Date.now() / 1000;
 
@@ -44,8 +52,7 @@ const ProtectedRoute = async (children: JSX.Element) => {
     }
   };
 
-  await auth();
-  return isAuthorized ? children : <Navigate to={"/login"} />;
+  return isAuthorized ? children : <Navigate to={"/login"} replace />;
 };
 
 export default ProtectedRoute;

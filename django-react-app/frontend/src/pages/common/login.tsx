@@ -3,17 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 import api from "../../logic/api";
-import {
-  ACCESS_TOKEN,
-  REFRESH_TOKEN,
-  USER_ID,
-  USER_NAME,
-} from "../../logic/constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_TOKEN } from "../../logic/constants";
 import { RotateLoader } from "react-spinners";
 
 type Props = {};
 
-const Login = (props: Props) => {
+const Login = ({}: Props) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -28,17 +23,13 @@ const Login = (props: Props) => {
         const res = await api.post("api/web/auth/", { username, password });
         if (res) {
           const dataUser: any = jwtDecode(res?.data?.data);
-          console.info(dataUser);
-          localStorage.setItem(USER_ID, dataUser.user.id);
-          localStorage.setItem(
-            USER_NAME,
-            `${dataUser.user.first_name} ${dataUser.user.last_name}`
-          );
+          // console.info(dataUser);
+          if (dataUser?.status) localStorage.setItem(USER_TOKEN, res.data.data);
           localStorage.setItem(ACCESS_TOKEN, res.data.token.access);
           // console.info(res.data.access);
           localStorage.setItem(REFRESH_TOKEN, res.data.token.refresh);
           // console.info(res.data.refresh);
-          navigate("/");
+          navigate("/apps");
         } else {
           navigate("/login");
         }

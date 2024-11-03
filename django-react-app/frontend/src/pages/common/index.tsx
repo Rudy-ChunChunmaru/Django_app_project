@@ -2,7 +2,7 @@ import Navbar from "../../components/navbar";
 
 type Props = {};
 
-const Index = (props: Props) => {
+const Index = ({}: Props) => {
   return (
     <div>
       <div>

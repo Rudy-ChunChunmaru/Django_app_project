@@ -1,17 +1,51 @@
 import React from "react";
-import Index from "../pages/common";
-import User from "../pages/apps/common/user";
-import Group from "../pages/apps/common/group";
 
-type routeListType = {
+import Setting, { IndexRoute } from "../pages/apps/setting";
+import User from "../pages/apps/setting/user";
+import Group from "../pages/apps/setting/group";
+import Menu from "../pages/apps/setting/menu";
+
+import Master from "../pages/apps/master";
+
+export type routeListType = {
   id: number;
+  routeTitle: string;
+  routeMenu: string;
   routeElement: JSX.Element;
+  children?: routeListType[];
 };
 
-const routeList: routeListType[] = [
-  { id: 1, routeElement: React.createElement(Index) },
-  { id: 2, routeElement: React.createElement(User) },
-  { id: 3, routeElement: React.createElement(Group) },
+export const routeList: routeListType[] = [
+  {
+    id: 1,
+    routeTitle: "Setting",
+    routeMenu: "setting",
+    routeElement: React.createElement(Setting),
+    children: [
+      {
+        id: 2,
+        routeTitle: "User",
+        routeMenu: "user",
+        routeElement: React.createElement(User),
+      },
+      {
+        id: 3,
+        routeTitle: "Group",
+        routeMenu: "Group",
+        routeElement: React.createElement(Group),
+      },
+      {
+        id: 4,
+        routeTitle: "Menu",
+        routeMenu: "Menu",
+        routeElement: React.createElement(Menu),
+      },
+    ],
+  },
+  {
+    id: 5,
+    routeTitle: "Master",
+    routeMenu: "Master",
+    routeElement: React.createElement(Master),
+  },
 ];
-
-export default routeList;

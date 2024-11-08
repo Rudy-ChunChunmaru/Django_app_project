@@ -114,7 +114,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     'PASSWORD': os.getenv("MYSQL_LOCAL_PASSWORD"),
 #     'HOST': os.getenv("MYSQL_LOCAL_HOST"),
 #     'PORT': os.getenv("MYSQL_LOCAL_PORT"),
-# }
 
 # DATABASES = {
 #     'default': DEV_MYSQL_DB

@@ -45,7 +45,10 @@ const Login = ({}: Props) => {
   };
 
   return (
-    <div className="fixed flex h-full w-full items-center justify-center bg-slate-500">
+    <div className="fixed flex flex-col h-full w-full items-center justify-center bg-slate-300">
+      <div className=''>
+
+      </div>
       <form
         onSubmit={loginAction}
         className="flex w-[80%] min-w-80 flex-col items-center justify-center gap-5 rounded-xl border-4 border-black bg-slate-200 px-3 py-5 sm:w-[45%]"
@@ -59,22 +62,28 @@ const Login = ({}: Props) => {
         </div>
 
         <div className="flex w-[70%] flex-col items-center justify-center gap-1">
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Username"
-            className="w-full rounded-lg border-2 px-3 py-2 hover:border-2 hover:border-black"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            className="w-full rounded-lg border-2 px-3 py-2 hover:border-2 hover:border-black"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <label className="w-full">
+            {username && <span className="text-sm font-medium text-slate-700">Username :</span>}
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+              className="w-full rounded-lg border-2 px-3 py-2 hover:border-2 hover:border-black"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </label>
+          <label className="w-full">
+            {password && <span className="text-sm font-medium text-slate-700">Password :</span>}
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              className="w-full rounded-lg border-2 px-3 py-2 hover:border-2 hover:border-black"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
           <br></br>
           {message && (
             <div className="flex flex-row items-center justify-between gap-3 rounded-lg bg-red-500 px-3 py-2">

@@ -12,6 +12,10 @@ import Apps from "./pages/apps";
 import { routeList, routeListType } from "./data/routes-list";
 
 function App() {
+  const VariableApps = {
+
+  }
+
   const RouteApps = () => {
     const LoopingRouteRender = (value: routeListType) => {
       return (
@@ -43,7 +47,8 @@ function App() {
   };
 
   return (
-    <>
+    <div className='relative'>
+      
       <Routes>
         {RouteApps()}
         <Route key="-1" index element={<Index />}></Route>
@@ -51,7 +56,7 @@ function App() {
         <Route key="-3" path="logout" element={<Logout />} />
         <Route key="-4" path="*" element={<ErrorNotFound />} />
       </Routes>
-    </>
+    </div>
   );
 }
 

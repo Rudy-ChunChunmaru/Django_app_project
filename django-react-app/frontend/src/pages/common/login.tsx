@@ -45,10 +45,7 @@ const Login = ({}: Props) => {
   };
 
   return (
-    <div className="fixed flex flex-col h-full w-full items-center justify-center bg-slate-300">
-      <div className=''>
-
-      </div>
+    <div className="fixed flex flex-col w-full h-full items-center justify-center bg-slate-300">
       <form
         onSubmit={loginAction}
         className="flex w-[80%] min-w-80 flex-col items-center justify-center gap-5 rounded-xl border-4 border-black bg-slate-200 px-3 py-5 sm:w-[45%]"

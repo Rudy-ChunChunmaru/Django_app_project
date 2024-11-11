@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../../components/navbar";
 
 const Apps = () => {
-  console.log("test apps load");
   return (
     <div className="flex flex-col items-center justify-center gap-1">
       <div className="w-full">

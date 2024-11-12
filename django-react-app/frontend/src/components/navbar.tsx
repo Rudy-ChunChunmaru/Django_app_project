@@ -6,12 +6,22 @@ import { jwtDecode } from "jwt-decode";
 
 import {VariableApps} from "../data/variable-apps";
 
-const Navbar = () => {
+import {
+  MoonIcon,
+  SunIcon
+} from "@heroicons/react/24/solid";
+
+type navbarType = {
+  dataApps:any,
+  setDataApps:any,
+}
+
+const Navbar = ({dataApps,setDataApps}:navbarType) => {
   const [loginStatus, setLoginStatus] = useState<boolean>(false);
 
   useEffect(() => {
     loginStatusCek();
-  }, []);
+  }, [dataApps]);
 
   const loginStatusCek = async () => {
     const token = localStorage.getItem(ACCESS_TOKEN);
@@ -34,7 +44,11 @@ const Navbar = () => {
     }
 
     return (
-      <div className="rounded-sm bg-blue-300 px-1 transition-colors hover:bg-blue-500">
+      <div 
+        className='rounded-md px-2 transition-colors border-2
+        border-gray-300 bg-gray-200 hover:bg-gray-300 
+        dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
+      >
         {first_name || last_name ? (
           <div className="flex flex-row justify-start gap-2">
             {first_name && <div>{first_name}</div>}
@@ -52,7 +66,9 @@ const Navbar = () => {
   const Login = () => {
     return (
       <div
-        className="rounded-sm bg-green-300 px-1 transition-colors hover:bg-green-500"
+        className='rounded-sm px-2 transition-colors border-2
+        border-gray-300 bg-gray-200 hover:bg-gray-300 
+        dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500' 
         onClick={() => navigate("/login")}
       >
         <strong>Login</strong>
@@ -63,7 +79,9 @@ const Navbar = () => {
   const Logout = () => {
     return (
       <button
-        className="rounded-sm bg-red-300 px-1 transition-colors hover:bg-red-500"
+        className='rounded-sm px-2 transition-colors border-2
+        border-gray-300 bg-gray-200 hover:bg-gray-300 
+        dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500' 
         onClick={() => navigate("/logout")}
       >
         <strong>Logout</strong>
@@ -80,9 +98,15 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex w-[100%] flex-col border-b-2 bg-gray-100">
+    <div className='flex w-[100%] flex-col px-5 border-b-2
+          border-gray-300 bg-gray-100  
+          dark:border-gray-500 dark:bg-gray-700'>
       <div className="flex w-full justify-between px-3 py-2">
-        <div className="my-auto flex h-fit w-fit gap-2 px-1 rounded-md hover:bg-gray-300 hover:drop-shadow-2xl">
+        <div 
+          className='my-auto flex h-fit w-fit gap-2 px-1 rounded-md transition 
+          border-2 border-gray-300 bg-gray-200 hover:bg-gray-300 
+          dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
+          onClick={()=>navigate("/")}>
           <div className='m-x-auto my-auto w-fit p-1'>
             <img
               className="mx-auto my-auto w-[3rem]"
@@ -91,11 +115,33 @@ const Navbar = () => {
             />
           </div>
           <div className='border-x-[1px] border-black' ></div>
-          <div className="my-auto w-[100%] hover:border-b-2 border-black">{VariableApps.TitleApps}</div>
+          <div className="my-auto w-[100%] hover:border-b-2 border-black">
+            <strong>{VariableApps.TitleApps}</strong>
+          </div>
         </div>
-        <div className="flex min-w-[10%] max-w-fit flex-col px-2">
-          {loginStatus && <User />}
-          {loginStatus ? <Logout /> : <Login />}
+        
+        <div className="flex flex-row justify-between min-w-[20%] max-w-fit">
+          <div className="flex w-full  flex-col px-2">
+            {loginStatus && <User />}
+            {loginStatus ? <Logout /> : <Login />}
+          </div>
+          <div>
+            <div 
+              className='rounded-sm transition-colors h-full py-auto border-2
+              border-gray-300 bg-gray-200 hover:bg-gray-300 
+              dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
+              onClick={()=>{
+                setDataApps({...dataApps,theme:dataApps.theme == 'dark' ? 'light' : 'dark'})
+              }}
+            >
+              <div className='w-8 px-1 h-full'>
+                {
+                  dataApps.theme == 'dark' ? 
+                  <MoonIcon className="fill-current" /> : <SunIcon className="fill-current" />
+                }
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div>{loginStatus ? <LoadMenu /> : <></>}</div>

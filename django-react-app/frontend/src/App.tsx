@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Navbar from "./components/navbar";
@@ -45,14 +45,19 @@ function App() {
     );
   };
 
-  const [thame,setThame] = useState(VariableApps.thame.light)
+  const [dataApps, setDataApps] = useState<{theme:string}>({theme:'dark'});
+
+  useEffect(()=>{
+    if(document.documentElement.classList.contains(dataApps.theme) == false)
+      document.documentElement.classList.toggle('dark');
+  },[dataApps])
 
   return (
-    <div className={`relative ${thame.font} text-[1rm] w-screen h-screen`}>
-      <div className='w-full relative top-0'>
-        <Navbar />
+    <div className='relative text-[1rm] text-black dark:text-white w-screen h-screen flex flex-col justify-between'>
+      <div className='w-full h-fit'>
+        <Navbar dataApps={dataApps} setDataApps={setDataApps} />
       </div>
-      <div className='w-full item-center overflow-auto my-3'>
+      <div className='w-full overflow-auto'>
         <Routes>
           {RouteApps()}
           <Route key="-1" index element={<Index />}></Route>
@@ -61,7 +66,11 @@ function App() {
           <Route key="-4" path="*" element={<ErrorNotFound />} />
         </Routes>
       </div>
-      <div className="fixed bottom-0 flex w-full flex-row justify-between border-b-2 bg-gray-100 px-5 border-t-2">
+      <div 
+          className='text-sm flex w-screen flex-row justify-between px-5 border-t-2
+          border-gray-300 bg-gray-100  
+          dark:border-gray-500 dark:bg-gray-700'
+        >
         <div>{VariableApps.TitleApps}©Copyright</div>
         <div>A.K.A ChunChunMaru</div>
       </div>

@@ -6,7 +6,7 @@ type Props = {
 
 const Index = ({}: Props) => {
   return (
-    <div className="">
+    <div className="h-full w-full">
         <div className="bg-gray-200 w-fit mx-auto my-auto px-5 py-3 rounded-md flex flex-col">
           <div className="w-fit mx-auto my-auto p-5 rounded-md text-sm">
             <>WELLCOME TO {VariableApps.TitleApps.toUpperCase()}</>

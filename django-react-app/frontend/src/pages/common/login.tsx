@@ -5,10 +5,13 @@ import { jwtDecode } from "jwt-decode";
 import api from "../../logic/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN, USER_TOKEN } from "../../logic/constants";
 import { RotateLoader } from "react-spinners";
+import LoadApps, { loadAppsType } from "../../AppLoad";
 
-type Props = {};
+type Props = {
+  setDataApps:(value:loadAppsType)=>void
+};
 
-const Login = ({}: Props) => {
+const Login = ({setDataApps}: Props) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,6 +32,7 @@ const Login = ({}: Props) => {
           // console.info(res.data.access);
           localStorage.setItem(REFRESH_TOKEN, res.data.token.refresh);
           // console.info(res.data.refresh);
+          setDataApps(LoadApps());
           navigate("/apps");
         } else {
           navigate("/login");
@@ -45,10 +49,10 @@ const Login = ({}: Props) => {
   };
 
   return (
-    <div className="flex flex-col w-full h-full items-center justify-center bg-slate-300 py-5">
+    <div className="flex flex-col w-full h-full items-center justify-center bg-slate-300 py-5 dark:bg-slate-500">
       <form
         onSubmit={loginAction}
-        className="flex w-[80%] min-w-80 flex-col items-center justify-center gap-5 rounded-xl border-4 border-black bg-slate-200 px-3 py-5 sm:w-[45%]"
+        className="flex w-[80%] min-w-80 flex-col items-center justify-center gap-5 rounded-xl border-4 border-black bg-slate-200 dark:bg-slate-700 px-3 py-5 sm:w-[45%]"
       >
         <div className="flex w-full justify-center">
           <h1>
@@ -60,24 +64,30 @@ const Login = ({}: Props) => {
 
         <div className="flex w-[70%] flex-col items-center justify-center gap-1">
           <label className="w-full">
-            {username && <span className="text-sm font-medium text-slate-700">Username :</span>}
+            {username && <span className="text-sm font-medium text-slate-700 dark:text-white">Username :</span>}
             <input
               type="text"
               id="username"
               name="username"
               placeholder="Username"
-              className="w-full rounded-lg border-2 px-3 py-2 hover:border-2 hover:border-black"
+              className="w-full rounded-lg border-2 px-3 py-2 
+              hover:border-2 hover:border-black 
+              dark:bg-slate-500
+              "
               onChange={(e) => setUsername(e.target.value)}
             />
           </label>
           <label className="w-full">
-            {password && <span className="text-sm font-medium text-slate-700">Password :</span>}
+            {password && <span className="text-sm font-medium text-slate-700 dark:text-white">Password :</span>}
             <input
               type="password"
               id="password"
               name="password"
               placeholder="Password"
-              className="w-full rounded-lg border-2 px-3 py-2 hover:border-2 hover:border-black"
+              className="w-full rounded-lg border-2 px-3 py-2 
+              hover:border-2 hover:border-black
+              dark:bg-slate-500
+              "
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
@@ -104,7 +114,10 @@ const Login = ({}: Props) => {
           {!loading && (
             <button
               type="submit"
-              className="w-[60%] rounded-lg border-2 border-black bg-blue-500 py-2 transition-all hover:w-full hover:bg-white"
+              className="w-[60%] rounded-lg border-2 border-black bg-blue-500 py-2 transition-all 
+              hover:w-full hover:bg-white
+              dark:hover:bg-black
+              "
             >
               LOGIN
             </button>

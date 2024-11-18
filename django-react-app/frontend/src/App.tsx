@@ -12,9 +12,15 @@ import Logout from "./pages/common/logout";
 import Apps from "./pages/apps";
 
 import { routeList, routeListType } from "./data/routes-list";
-import {VariableApps} from "./data/variable-apps";
+
+import Bottom from "./components/bottom";
+
+
+import loadData, {loadAppsType} from "./AppLoad";
 
 function App() {
+  const [dataApps, setDataApps] = useState<loadAppsType>(loadData());
+  
   const RouteApps = () => {
     const LoopingRouteRender = (value: routeListType) => {
       return (
@@ -45,34 +51,29 @@ function App() {
     );
   };
 
-  const [dataApps, setDataApps] = useState<{theme:string}>({theme:'dark'});
-
   useEffect(()=>{
-    if(document.documentElement.classList.contains(dataApps.theme) == false)
+    if(dataApps.theme == 'dark' && document.documentElement.classList.contains('dark') == false)
+      document.documentElement.classList.toggle('dark');
+    else if(dataApps.theme == 'light' && document.documentElement.classList.contains('dark') == true)
       document.documentElement.classList.toggle('dark');
   },[dataApps])
 
   return (
     <div className='relative text-[1rm] text-black dark:text-white w-screen h-screen flex flex-col justify-between'>
-      <div className='w-full h-fit'>
+      <div className='w-full h-fit text-sm'>
         <Navbar dataApps={dataApps} setDataApps={setDataApps} />
       </div>
-      <div className='w-full overflow-auto'>
+      <div className='w-full overflow-auto text-normal'>
         <Routes>
           {RouteApps()}
           <Route key="-1" index element={<Index />}></Route>
-          <Route key="-2" path="login" element={<Login />} />
-          <Route key="-3" path="logout" element={<Logout />} />
+          <Route key="-2" path="login" element={<Login setDataApps={setDataApps} />} />
+          <Route key="-3" path="logout" element={<Logout setDataApps={setDataApps} />} />
           <Route key="-4" path="*" element={<ErrorNotFound />} />
         </Routes>
       </div>
-      <div 
-          className='text-sm flex w-screen flex-row justify-between px-5 border-t-2
-          border-gray-300 bg-gray-100  
-          dark:border-gray-500 dark:bg-gray-700'
-        >
-        <div>{VariableApps.TitleApps}©Copyright</div>
-        <div>A.K.A ChunChunMaru</div>
+      <div className='w-full overflow-auto text-sm'>
+          <Bottom />
       </div>
     </div>
   );

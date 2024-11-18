@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { ACCESS_TOKEN, USER_TOKEN } from "../logic/constants";
 import { useNavigate } from "react-router-dom";
-import NavbarMenu from "./navbar-menu";
 import { jwtDecode } from "jwt-decode";
 
+import { ACCESS_TOKEN, USER_TOKEN,THEME } from "../logic/constants";
+import NavbarMenu from "./navbar-menu";
 import {VariableApps} from "../data/variable-apps";
+import LoadApps,{ loadAppsType } from "../AppLoad";
 
 import {
   MoonIcon,
   SunIcon
 } from "@heroicons/react/24/solid";
 
+
 type navbarType = {
-  dataApps:any,
-  setDataApps:any,
+  dataApps:loadAppsType,
+  setDataApps:(value:loadAppsType)=>void,
 }
 
 const Navbar = ({dataApps,setDataApps}:navbarType) => {
@@ -66,7 +68,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
   const Login = () => {
     return (
       <div
-        className='rounded-sm px-2 transition-colors border-2
+        className='rounded-md px-2 transition-colors border-2
         border-gray-300 bg-gray-200 hover:bg-gray-300 
         dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500' 
         onClick={() => navigate("/login")}
@@ -79,7 +81,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
   const Logout = () => {
     return (
       <button
-        className='rounded-sm px-2 transition-colors border-2
+        className='rounded-md px-2 transition-colors border-2
         border-gray-300 bg-gray-200 hover:bg-gray-300 
         dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500' 
         onClick={() => navigate("/logout")}
@@ -106,7 +108,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
           className='my-auto flex h-fit w-fit gap-2 px-1 rounded-md transition 
           border-2 border-gray-300 bg-gray-200 hover:bg-gray-300 
           dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
-          onClick={()=>navigate("/")}>
+          onClick={()=>{loginStatus ? navigate("/apps") : navigate("/") }}>
           <div className='m-x-auto my-auto w-fit p-1'>
             <img
               className="mx-auto my-auto w-[3rem]"
@@ -125,16 +127,17 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
             {loginStatus && <User />}
             {loginStatus ? <Logout /> : <Login />}
           </div>
-          <div>
+          <div className='w-fit h-full'>
             <div 
-              className='rounded-sm transition-colors h-full py-auto border-2
+              className='rounded-md transition-colors h-fit py-auto border-2
               border-gray-300 bg-gray-200 hover:bg-gray-300 
               dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
               onClick={()=>{
-                setDataApps({...dataApps,theme:dataApps.theme == 'dark' ? 'light' : 'dark'})
+                localStorage.setItem(THEME,dataApps.theme == 'dark' ? 'light' : 'dark')
+                setDataApps(LoadApps())
               }}
             >
-              <div className='w-8 px-1 h-full'>
+              <div className='w-8 px-1 justify-self-center'>
                 {
                   dataApps.theme == 'dark' ? 
                   <MoonIcon className="fill-current" /> : <SunIcon className="fill-current" />

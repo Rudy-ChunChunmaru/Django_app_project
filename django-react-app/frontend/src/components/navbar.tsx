@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-
-import { ACCESS_TOKEN, USER_TOKEN,THEME } from "../logic/constants";
-import NavbarMenu from "./navbar-menu";
-import {VariableApps} from "../data/variable-apps";
-import LoadApps,{ loadAppsType } from "../AppLoad";
-
 import {
   MoonIcon,
   SunIcon
 } from "@heroicons/react/24/solid";
 
+import {THEME} from "../logic/constants";
+import NavbarMenu from "./navbar-menu";
+import {VariableApps} from "../data/variable-apps";
+import LoadApps,{ loadAppsType } from "../AppLoad";
 
 type navbarType = {
   dataApps:loadAppsType,
@@ -19,26 +17,23 @@ type navbarType = {
 }
 
 const Navbar = ({dataApps,setDataApps}:navbarType) => {
+  const navigate = useNavigate();
   const [loginStatus, setLoginStatus] = useState<boolean>(false);
 
   useEffect(() => {
     loginStatusCek();
-  }, [dataApps]);
+  }, [dataApps,loginStatus]);
 
   const loginStatusCek = async () => {
-    const token = localStorage.getItem(ACCESS_TOKEN);
-    if (token != null) {
-      setLoginStatus(true);
-    } else setLoginStatus(false);
+    const token = dataApps.access;
+    if (token != null && token != '') setLoginStatus(true);
+    else setLoginStatus(false);
   };
 
-  const navigate = useNavigate();
-
-  const User = () => {
-    const userToken: string | null = localStorage.getItem(USER_TOKEN);
+  const User = ({userToken}:{userToken:string}) => {
     let first_name;
     let last_name;
-    if (userToken != null) {
+    if (userToken != null && userToken != '') {
       const userData: any = jwtDecode(userToken);
       userData?.user &&
         ((first_name = userData.user?.first_name) ||
@@ -91,12 +86,29 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
     );
   };
 
-  const LoadMenu = () => {
-    return (
-      <div className="flex w-full border-t-2">
-        <NavbarMenu />
-      </div>
-    );
+  const LoadMenu = ({userToken}:{userToken:string}) => {
+    if (userToken != null && userToken != '') {
+      const userData: any = jwtDecode(userToken);
+      if(userData?.menus && Array.isArray(userData.menus))
+        return (
+          <div className="flex w-full border-t-2">
+            <NavbarMenu idMenus={[...userData.menus.map((val:any) => val?.id && val.id)]} />
+          </div>
+        );
+      else
+        return (
+          <div className="flex w-full border-t-2">
+            <div>No Menu</div>
+          </div>
+        )
+    }else
+      return (
+        <div className="flex w-full border-t-2">
+          <div>No Menu</div>
+        </div>
+      )
+    
+    
   };
 
   return (
@@ -124,7 +136,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
         
         <div className="flex flex-row justify-between min-w-[20%] max-w-fit">
           <div className="flex w-full  flex-col px-2">
-            {loginStatus && <User />}
+            {loginStatus && <User userToken={dataApps.user} />}
             {loginStatus ? <Logout /> : <Login />}
           </div>
           <div className='w-fit h-full'>
@@ -147,7 +159,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
           </div>
         </div>
       </div>
-      <div>{loginStatus ? <LoadMenu /> : <></>}</div>
+      <div>{loginStatus ? <LoadMenu userToken={dataApps.user} />: <></>}</div>
     </div>
   );
 };

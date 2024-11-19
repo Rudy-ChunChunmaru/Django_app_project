@@ -1,6 +1,6 @@
 import React from "react";
 
-import Setting, { IndexRoute } from "../pages/apps/setting";
+import Setting from "../pages/apps/setting";
 import User from "../pages/apps/setting/user";
 import Group from "../pages/apps/setting/group";
 import Menu from "../pages/apps/setting/menu";
@@ -27,6 +27,20 @@ export const routeList: routeListType[] = [
         routeTitle: "User",
         routeMenu: "user",
         routeElement: React.createElement(User),
+        children: [
+          {
+            id: 3,
+            routeTitle: "Group",
+            routeMenu: "Group",
+            routeElement: React.createElement(Group),
+          },
+          {
+            id: 3,
+            routeTitle: "Group",
+            routeMenu: "Group",
+            routeElement: React.createElement(Group),
+          },
+        ],
       },
       {
         id: 3,
@@ -41,6 +55,12 @@ export const routeList: routeListType[] = [
         routeElement: React.createElement(Menu),
       },
     ],
+  },
+  {
+    id: 3,
+    routeTitle: "Group",
+    routeMenu: "Group",
+    routeElement: React.createElement(Group),
   },
   {
     id: 5,

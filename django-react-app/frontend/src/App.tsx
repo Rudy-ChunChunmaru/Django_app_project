@@ -59,20 +59,20 @@ function App() {
   },[dataApps])
 
   return (
-    <div className='relative text-[1rm] text-black dark:text-white w-screen h-screen flex flex-col justify-between'>
+    <div className='relative text-[1rm] text-black dark:text-white w-screen h-screen flex flex-col justify-between overflow-none'>
       <div className='w-full h-fit text-sm'>
         <Navbar dataApps={dataApps} setDataApps={setDataApps} />
       </div>
-      <div className='w-full overflow-auto text-normal'>
+      <div className='w-full h-full overflow-none text-normal'>
         <Routes>
           {RouteApps()}
           <Route key="-1" index element={<Index />}></Route>
-          <Route key="-2" path="login" element={<Login setDataApps={setDataApps} />} />
+          <Route key="-2" path="login" element={<Login dataApps={dataApps} setDataApps={setDataApps} />} />
           <Route key="-3" path="logout" element={<Logout setDataApps={setDataApps} />} />
           <Route key="-4" path="*" element={<ErrorNotFound />} />
         </Routes>
       </div>
-      <div className='w-full overflow-auto text-sm'>
+      <div className='w-full overflow-none text-sm'>
           <Bottom />
       </div>
     </div>

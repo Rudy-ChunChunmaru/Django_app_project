@@ -117,7 +117,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
           dark:border-gray-500 dark:bg-gray-700'>
       <div className="flex w-full justify-between px-3 py-2">
         <div 
-          className='my-auto flex h-fit w-fit gap-2 px-1 rounded-md transition 
+          className='group my-auto flex h-fit w-fit gap-2 px-1 rounded-md transition 
           border-2 border-gray-300 bg-gray-200 hover:bg-gray-300 
           dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
           onClick={()=>{loginStatus ? navigate("/apps") : navigate("/") }}>
@@ -129,7 +129,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
             />
           </div>
           <div className='border-x-[1px] border-black' ></div>
-          <div className="my-auto w-[100%] hover:border-b-2 border-black">
+          <div className="my-auto w-[100%] group-hover:border-b-2 border-gray-500 dark:border-gray-300">
             <strong>{VariableApps.TitleApps}</strong>
           </div>
         </div>

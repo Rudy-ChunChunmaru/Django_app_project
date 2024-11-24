@@ -27,45 +27,33 @@ export const routeList: routeListType[] = [
         routeTitle: "User",
         routeMenu: "user",
         routeElement: React.createElement(User),
-        children: [
-          {
-            id: 3,
-            routeTitle: "Group",
-            routeMenu: "Group",
-            routeElement: React.createElement(Group),
-          },
-          {
-            id: 3,
-            routeTitle: "Group",
-            routeMenu: "Group",
-            routeElement: React.createElement(Group),
-          },
-        ],
       },
       {
         id: 3,
         routeTitle: "Group",
-        routeMenu: "Group",
+        routeMenu: "group",
         routeElement: React.createElement(Group),
       },
       {
         id: 4,
         routeTitle: "Menu",
-        routeMenu: "Menu",
+        routeMenu: "menu",
         routeElement: React.createElement(Menu),
       },
     ],
   },
   {
-    id: 3,
-    routeTitle: "Group",
-    routeMenu: "Group",
-    routeElement: React.createElement(Group),
-  },
-  {
     id: 5,
     routeTitle: "Master",
-    routeMenu: "Master",
+    routeMenu: "master",
     routeElement: React.createElement(Master),
+    children:[
+      {
+        id: 6,
+        routeTitle: "Item",
+        routeMenu: "item",
+        routeElement: React.createElement(User),
+      },
+    ]
   },
 ];

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -8,10 +8,11 @@ import { RotateLoader } from "react-spinners";
 import LoadApps, { loadAppsType } from "../../AppLoad";
 
 type Props = {
+  dataApps:loadAppsType
   setDataApps:(value:loadAppsType)=>void
 };
 
-const Login = ({setDataApps}: Props) => {
+const Login = ({dataApps,setDataApps}: Props) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,8 +49,14 @@ const Login = ({setDataApps}: Props) => {
     } else setmessage("username and password cant be empty !!!");
   };
 
+  useEffect(()=>{
+    dataApps.access != null && dataApps.access != '' && navigate("/apps");
+  })
+
   return (
-    <div className="flex flex-col w-full h-full items-center justify-center bg-slate-300 py-5 dark:bg-slate-500">
+    <div className="flex flex-col w-full h-full items-center justify-center py-5 
+    bg-slate-300 
+    dark:bg-slate-500">
       <form
         onSubmit={loginAction}
         className="flex w-[80%] min-w-80 flex-col items-center justify-center gap-5 rounded-xl border-4 border-black bg-slate-200 dark:bg-slate-700 px-3 py-5 sm:w-[45%]"

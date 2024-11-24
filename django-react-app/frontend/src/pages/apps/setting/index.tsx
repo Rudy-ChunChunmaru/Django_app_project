@@ -10,8 +10,5 @@ const Setting = () => {
   );
 };
 
-export const IndexRoute = () => {
-  return <>setting</>;
-};
 
 export default Setting;

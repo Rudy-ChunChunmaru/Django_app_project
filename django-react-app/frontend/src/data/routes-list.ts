@@ -47,13 +47,13 @@ export const routeList: routeListType[] = [
     routeTitle: "Master",
     routeMenu: "master",
     routeElement: React.createElement(Master),
-    children:[
+    children: [
       {
         id: 6,
         routeTitle: "Item",
         routeMenu: "item",
         routeElement: React.createElement(User),
       },
-    ]
+    ],
   },
 ];

@@ -45,9 +45,12 @@ const ProtectedRoute = ({ children }: ProtectedRouteType) => {
       if (res.status == 200) {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         setIsAuthorized(true);
-      } else setIsAuthorized(false);
+      } else{
+        setIsAuthorized(false);
+      }
     } catch (error) {
       // console.error(error);
+      console.error('aaaa');
       setIsAuthorized(false);
     }
   };

@@ -115,7 +115,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
     <div className='flex w-[100%] flex-col px-5 border-b-2
           border-gray-300 bg-gray-100  
           dark:border-gray-500 dark:bg-gray-700'>
-      <div className="flex w-full justify-between px-3 py-2">
+      <div className="flex w-full justify-between px-3 py-1">
         <div 
           className='group my-auto flex h-fit w-fit gap-2 px-1 rounded-md transition 
           border-2 border-gray-300 bg-gray-200 hover:bg-gray-300 
@@ -141,7 +141,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
           </div>
           <div className='w-fit h-full'>
             <div 
-              className='rounded-md transition-colors h-fit py-auto border-2
+              className='rounded-md transition-colors h-fit py-1 border-2
               border-gray-300 bg-gray-200 hover:bg-gray-300 
               dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
               onClick={()=>{
@@ -152,7 +152,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
               <div className='w-8 px-1 justify-self-center'>
                 {
                   dataApps.theme == 'dark' ? 
-                  <MoonIcon className="fill-current" /> : <SunIcon className="fill-current" />
+                  <SunIcon className="fill-current" /> : <MoonIcon className="fill-current" />
                 }
               </div>
             </div>

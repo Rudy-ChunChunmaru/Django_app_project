@@ -42,7 +42,6 @@ const Login = ({dataApps,setDataApps}: Props) => {
         if (error.response.status === 401) {
           setmessage(error.response.data.detail);
         }
-        console.info(error);
       } finally {
         setLoading(false);
       }
@@ -81,6 +80,7 @@ const Login = ({dataApps,setDataApps}: Props) => {
               hover:border-2 hover:border-black 
               dark:bg-slate-500
               "
+              autoComplete="off"
               onChange={(e) => setUsername(e.target.value)}
             />
           </label>
@@ -95,6 +95,7 @@ const Login = ({dataApps,setDataApps}: Props) => {
               hover:border-2 hover:border-black
               dark:bg-slate-500
               "
+              autoComplete="off"
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>

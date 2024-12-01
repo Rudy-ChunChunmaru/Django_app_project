@@ -40,7 +40,7 @@ const NavbarMenu = ({ idMenus }: Props) => {
               border-gray-300 bg-gray-200
               dark:border-gray-500 dark:bg-gray-700
             ">
-              <div className="py-[0.2rem] w-full text-center group-hover:border-b-2
+              <div className="w-full text-center group-hover:border-b-2
               border-gray-300
               dark:border-gray-500
               ">
@@ -82,7 +82,6 @@ const NavbarMenu = ({ idMenus }: Props) => {
 
   const [menu] = useState<routeListType[]>(LoopingAuthMenu());
   const navigate = useNavigate();
-  console.log(menu);
   return (
     <div className="w-full">
       {menu && <LoopingViewMenu menuAuthList={menu} isMenuBase={true} routerMap='/apps'/>}

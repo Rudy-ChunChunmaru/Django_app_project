@@ -1,6 +1,6 @@
 .venv/
 /backend/__pycache__/
-
+.env
 /web/migrations/
 /web/__pycache__/
 /web/view/__pycache__/

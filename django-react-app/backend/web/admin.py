@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Permission
-from .models import Menu,UserMenuPermission,GroupMenuPermission
+from .models.setting import Menu,UserMenuPermission,GroupMenuPermission
 
 # Register your models here.
 @admin.register(Permission)

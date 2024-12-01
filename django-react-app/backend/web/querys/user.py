@@ -5,7 +5,6 @@ class User:
     def __init__(self):
         pass
 
-
     def getUser(self,strwhere=''):
         strQuery = '''
             SELECT 
@@ -24,7 +23,6 @@ class User:
             FROM
 
             auth_user user
-
         '''
 
         if(strwhere):

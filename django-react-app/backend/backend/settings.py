@@ -36,12 +36,14 @@ ALLOWED_HOSTS = ["*"]
 
 # JWT auth
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
+    "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+    ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
 
 # JWT Token Life time
@@ -122,7 +124,7 @@ DEV_SQL_Lite_DB = {
 }
 
 DATABASES = {
-    'default': DEV_MYSQL_DB
+    'default': DEV_SQL_Lite_DB
 }
 
 

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User,Group
 from rest_framework import serializers
-from ..models.setting import Menu,UserMenuPermission,GroupMenuPermission
+from web.models.setting import Menu,UserMenuPermission,GroupMenuPermission
 from django.contrib.auth.hashers import make_password
 
 class UserSerializer(serializers.ModelSerializer):

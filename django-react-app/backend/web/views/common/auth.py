@@ -7,9 +7,8 @@ from rest_framework import mixins,generics,status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from ...serializers.common import UserSerializer,UserAuthDetailInfoSerializer
+from web.serializers.common import UserSerializer,UserAuthDetailInfoSerializer
 import jwt
-
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)

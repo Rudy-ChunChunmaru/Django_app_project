@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@silevis/reactgrid": "^4.1.10",
+    "@emotion/css": "^11.13.5",
     "@heroicons/react": "^2.1.1",
     "axios": "^1.7.2",
     "framer-motion": "^11.0.5",
+    "gridjs": "^6.2.0",
+    "gridjs-react": "^6.1.1",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-anchor-link-smooth-scroll": "^1.0.12",

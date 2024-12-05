@@ -41,7 +41,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteType) => {
       const res = await api.post("/api/token/refresh/", {
         refresh: refreshToken,
       });
-
       if (res.status == 200) {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         setIsAuthorized(true);
@@ -49,13 +48,12 @@ const ProtectedRoute = ({ children }: ProtectedRouteType) => {
         setIsAuthorized(false);
       }
     } catch (error) {
-      // console.error(error);
-      console.error('aaaa');
+      console.error(error);
       setIsAuthorized(false);
     }
   };
 
-  return isAuthorized ? children : <Navigate to={"/login"} replace />;
+  return isAuthorized ? children : <Navigate to={"/logout"} replace />;
 };
 
 export default ProtectedRoute;

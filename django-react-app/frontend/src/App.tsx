@@ -22,12 +22,17 @@ function App() {
   const [dataApps, setDataApps] = useState<loadAppsType>(loadData());
   
   const RouteApps = () => {
+    const test = () =>{
+      console.log('aaaaaaa')
+    }
+
     const LoopingRouteRender = (value: routeListType) => {
       return (
         <Route
           key={value.id}
           path={value.routeMenu}
           element={value.routeElement}
+          action={()=>test}
         >
           {value?.children?.length &&
             value.children.map((value) => LoopingRouteRender(value))}

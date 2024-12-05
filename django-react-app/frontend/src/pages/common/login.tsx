@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-import api from "../../logic/api";
+import api from "@/logic/api";
 import { ACCESS_TOKEN, REFRESH_TOKEN, USER_TOKEN } from "../../logic/constants";
 import { RotateLoader } from "react-spinners";
 import LoadApps, { loadAppsType } from "../../AppLoad";
@@ -25,22 +25,21 @@ const Login = ({dataApps,setDataApps}: Props) => {
       try {
         setLoading(true);
         const res = await api.post("api/web/auth/", { username, password });
-        if (res) {
-          const dataUser: any = jwtDecode(res?.data?.data);
-          // console.info(dataUser);
-          if (dataUser?.status) localStorage.setItem(USER_TOKEN, res.data.data);
+        const dataUser: any = jwtDecode(res?.data?.data);
+        if (dataUser?.status){
+          localStorage.setItem(USER_TOKEN, res.data.data);
           localStorage.setItem(ACCESS_TOKEN, res.data.token.access);
-          // console.info(res.data.access);
           localStorage.setItem(REFRESH_TOKEN, res.data.token.refresh);
-          // console.info(res.data.refresh);
           setDataApps(LoadApps());
           navigate("/apps");
-        } else {
-          navigate("/login");
+        }else{
+          setmessage(dataUser?.status);
         }
       } catch (error: any) {
         if (error.response.status === 401) {
-          setmessage(error.response.data.detail);
+          setmessage(error.response.data.Error);
+        }else{
+          setmessage('Error !!! Contac ur admin !!!');
         }
       } finally {
         setLoading(false);

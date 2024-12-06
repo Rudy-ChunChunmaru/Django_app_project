@@ -26,4 +26,6 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
     # app
     path("api/web/", include("web.urls")),
+    # midtrans
+    path("api/", include("midtrans.urls")),
 ]

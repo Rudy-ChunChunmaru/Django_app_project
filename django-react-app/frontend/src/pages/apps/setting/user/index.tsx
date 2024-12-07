@@ -4,13 +4,13 @@ type Props = {};
 
 const User = (props: Props) => {
   const usercolom:tableColomType[] = [
-    {lable:"Username",colom:"username",type:'navigate'},
-    {lable:"First Name",colom:"first_name"},
-    {lable:"Last Name",colom:"last_name"},
-    {lable:"Email",colom:"email"},
-    {lable:"Super User",colom:"is_superuser",type:'boolean'},
-    {lable:"Staff",colom:"is_staff",type:'boolean'},
-    {lable:"Active",colom:"is_active",type:'boolean'}
+    {lable:"Username",colom:"username",type:'navigate',input:true},
+    {lable:"First Name",colom:"first_name",type:'string',input:true},
+    {lable:"Email",colom:"email",type:'string',input:true},
+    {lable:"Last Name",colom:"last_name",type:'string',input:true},
+    {lable:"Super User",colom:"is_superuser",type:'boolean',input:true},
+    {lable:"Staff",colom:"is_staff",type:'boolean',input:true},
+    {lable:"Active",colom:"is_active",type:'boolean',input:true}
   ]
 
 

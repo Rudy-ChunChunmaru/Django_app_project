@@ -17,23 +17,28 @@ class getTokenMidtrans(
     permission_classes =[AllowAny]
 
     def post(self, request,*args, **kwargs):
-        order_id = request.data.get('order_id')
-        gross_amount = request.data.get('gross_amount')
-        snap = midtransclient.Snap(
-            is_production=False,
-            server_key= os.getenv("MIDTRANS_SERVER_KEY"),
-            client_key= os.getenv("MIDTRANS_CLIENT_KEY")
-        )
-        # Prepare parameter
-        param = {
-                "transaction_details": {
-                    "order_id": order_id,
-                    "gross_amount": gross_amount
-                },"credit_card":{
-                    "secure" : True
+        access_key = request.data.get('access_key')
+        if(access_key == os.getenv("MIDTRANS_ACCESS_KEY")):
+            order_id = request.data.get('order_id')
+            gross_amount = request.data.get('gross_amount')
+
+            snap = midtransclient.Snap(
+                is_production=False,
+                server_key= os.getenv("MIDTRANS_SERVER_KEY"),
+                client_key= os.getenv("MIDTRANS_CLIENT_KEY")
+            )
+            # Prepare parameter
+            param = {
+                    "transaction_details": {
+                        "order_id": order_id,
+                        "gross_amount": gross_amount
+                    },"credit_card":{
+                        "secure" : True
+                    }
                 }
-            }
-        transaction = snap.create_transaction(param)
-        return Response(data={'data':transaction}, status=status.HTTP_200_OK)
+            transaction = snap.create_transaction(param)
+            return Response(data={'data':transaction}, status=status.HTTP_200_OK)
+        else:
+            return Response(data={'data':'','error':'ada kesalahaan !!!'},status=status.HTTP_401_UNAUTHORIZED)
 
 

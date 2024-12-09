@@ -33,7 +33,7 @@ const TableGrid = ({link,coloms}:tableGridType) => {
 
     const [dataList,setDataList] = useState<any>();
 
-    const templateWindowListView = () =>{
+    const TemplateWindowListView = () =>{
         return <div className="text-xs">
             <Grid 
                 className={{
@@ -72,9 +72,9 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                 fixedHeader={true}
                 autoWidth={true}
                 columns={[
-                    ...coloms.map((valcol)=>{
+                    ...coloms.map((valcol,keycol)=>{
                         if(valcol.type == 'navigate')
-                            return {name:valcol.lable,field:valcol.colom,formatter:(cells:any) => _(<a className="border-b-2 border-blue-600 text-blue-600 hover:font-bold transition-transform" onClick={()=>alert(cells)}>{cells}</a>)}
+                            return {name:valcol.lable,field:valcol.colom,formatter:(cells:any) => _(<a key={`${keycol}`} className="border-b-2 border-blue-600 text-blue-600 hover:font-bold transition-transform" onClick={()=>alert(cells)}>{cells}</a>)}
                         else
                             return {name:valcol.lable,field:valcol.colom}
                     })
@@ -132,64 +132,66 @@ const TableGrid = ({link,coloms}:tableGridType) => {
         </div>
     }
 
-    const windowListButton = () => {
-        return(<div 
-            className="relative border-2 rounded-md py-1 px-2 transition-colors top-[0.2rem] w-fit
-            bg-gray-100  border-gray-300 hover:bg-gray-100
-            dark:bg-gray-700 dark:border-gray-500 dark:hover:bg-gray-500"
-            onClick={()=>setWindowView(()=>templateWindowListView())}
-        >
-            List
-        </div>)
-    }
+    const TemplateWindowFormView = () => {
+        const [formInput,setFormInput] = useState<{name:string,value:string | boolean}[]>(
+            [...coloms.map((val)=>{
+                if(val.type == 'boolean')
+                    return {name:val.colom,value:false}
+                else
+                    return {name:val.colom,value:''}
+            })]
+        )
 
-    const windowPostButton = (inputs:{inputs:any}) => {
-        const method = 'post'
-        const templateWindowView = () => {
-            
-
-            return <div className="px-2 pt-1 w-[100%] h-[100%]">
-                <form>
-                    <div className="flex flex-col">
-                        <div>Create New</div>
-                        <div className="grid grid-cols-1 px-2">
-                            {coloms.map((val)=>{
-                                    if(val.type == 'boolean')
-                                        return <>
-                                            <div className="flex gap-2">
-                                                <input type="checkbox" id="" name="" className="top-1" value={''} /> {val.lable}
-                                            </div>
-                                        </>
-                                    else
-                                        return <>
-                                            <div >{val.lable}:</div>
-                                            <input type="text" id="" name="" className="w-[80%]" value={''} />
-                                        </>
-                                }
-                            )}
-                        </div>
-                    </div>
-                </form>     
-            </div>
+        const onChangeInput = (e:any) => {
+            console.log(e)
         }
 
-        return(<div 
+        return <div id="Cont-Form-CreateNew" className="px-2 pt-1 w-[100%] h-[100%]">
+            <form id="Form">
+                <div id="Warp-Form" className="flex flex-col">
+                    <div id="Title-Form" className="border-b-2 border-gray-300 dark:border-gray-500">Create New</div>
+                    <div id="Content-Form" className="grid grid-cols-1 px-2">
+                        {coloms.map((val,key)=>{
+                                const valueInput = formInput.find((valfrom)=>valfrom.name == val.colom)
+                                console.log(valueInput)
+                                if(val.type == 'boolean')
+                                    return <>
+                                        <div key={`${key}`} id={`content-${val.colom}`} className="flex gap-2">
+                                            <input type="checkbox" id={`${val.colom}`} name={`${val.colom}`} className="top-1" value={''} onChange={onChangeInput} /> {val.lable}
+                                        </div>
+                                    </>
+                                else
+                                    return <div key={`${key}`}>
+                                        <div id={`Label-${val.colom}`} className="">{val.lable}:</div>
+                                        <input type="text" id={`${val.colom}`} name={`${val.colom}`} className="w-[80%]" value={''} onChange={onChangeInput} />
+                                    </div>
+                            }
+                        )}
+                    </div>
+                </div>
+            </form>     
+        </div>
+    }
+
+    const TemplateWindowButton = ({key,name,element}:{key:number,name:string,element:JSX.Element}) => {
+        return(<div
+            key={key}
             className="relative border-2 rounded-md py-1 px-2 transition-colors top-[0.2rem] w-fit
             bg-gray-100  border-gray-300 hover:bg-gray-100
             dark:bg-gray-700 dark:border-gray-500 dark:hover:bg-gray-500"
-            onClick={()=>setWindowView(()=>templateWindowView())}
+            onClick={()=>setWindowView(element)}
         >
-            Create New
+            {name}
         </div>)
     }
 
     type windowType = {
         name:string,
-        element: ()=>JSX.Element,
+        element:JSX.Element,
     }
 
-    const [window,setWindow] = useState<windowType[]>([{name:'List',element:()=>windowListButton()}]);
-    const [windowView,setWindowView] = useState<()=>JSX.Element>(()=>templateWindowListView());
+    const [windowButton,setWindowButton] = useState<windowType[]>([{name:'List',element:<TemplateWindowListView />}]);
+    const [windowView,setWindowView] = useState<JSX.Element>(<TemplateWindowListView />);
 
     useEffect(()=>{
         getDataList().then(
@@ -197,29 +199,26 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                 setDataList(res)
                 if(window != undefined) {
                     if(res?.actions?.POST){
-                        if(window.find((val)=>val.name == 'Create New') == undefined){
-                            setWindow([...window,{name:'Create New',element:()=>windowPostButton(res.actions.POST)}])
+                        if(windowButton.find((val)=>val.name == 'Create New') == undefined){
+                            setWindowButton([...windowButton,{name:'Create New',element:<TemplateWindowFormView />}])
                         }
                     }
                 }
-                else {
-                    alert('error load list view backend!!!')
-                }
-                
+                else alert('error load list view backend!!!')
             }
         ).catch(()=>{alert('error load data to backend!!!');})
     },[])
 
     return <div className="w-full h-[100%]">
         {dataList ? 
-        (<div className="flex flex-col w-full h-[100%]">
-            <div className="flex flex-auto gap-2 justify-self-start h-fit w-[100%] px-1">
-                {window && window.map((val)=>val.element())}
+            <div className="flex flex-col w-full h-[100%]">
+                <div className="flex flex-auto gap-2 justify-self-start h-fit w-[100%] px-1">
+                    {windowButton && windowButton.map((val,key)=><TemplateWindowButton key={key} name={val.name} element={val.element} />)}
+                </div>
+                <div className="relative w-full h-[100%]">
+                    {windowView}
+                </div>
             </div>
-            <div className="relative w-full h-[100%]">
-                {dataList && windowView}
-            </div>
-        </div>)
         : <div className="w-full text-center bg-white rounded-md text-black">loading ...</div>}  
     </div>
 }

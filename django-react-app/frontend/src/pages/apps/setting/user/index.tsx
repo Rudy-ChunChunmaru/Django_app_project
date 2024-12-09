@@ -14,15 +14,17 @@ const User = (props: Props) => {
   ]
 
 
-  return <div className="w-full text-normal">
-    <div className="w-full border-b-2
-      border-gray-300
-      dark:border-gray-500
-    ">List User</div>
-      <div className="w-full">
-        <TableGrid link={"api/web/user/"} coloms={usercolom} />
-      </div>
-  </div>;
+  return(
+    <div id="index-user" className="w-full text-normal">
+      <div id="title-user" className="w-full border-b-2
+        border-gray-300
+        dark:border-gray-500
+      ">List User</div>
+        <div id="content-user" className="w-full">
+          <TableGrid link={"api/web/user/"} coloms={usercolom} />
+        </div>
+    </div>
+  );
 };
 
 export default User;

@@ -39,6 +39,7 @@ const NavbarMenu = ({ idMenus }: Props) => {
         if (val.children)
           return (
             <div
+              key={key}
               id={`Menu-${key}`}
               className="relative group grid grid-cols-1 w-fit h-fit gap-1 px-2 border-2 rounded-md 
               border-gray-300 bg-gray-200
@@ -69,6 +70,7 @@ const NavbarMenu = ({ idMenus }: Props) => {
           );
         else return (
           <div
+          key={key}
           id={`sub_menu-${val.id}`}
           className="relative border-t-2 border-x-2 px-2 rounded-md hover:cursor-pointer
           border-2 border-gray-300 bg-gray-200 hover:bg-gray-300 
@@ -81,12 +83,12 @@ const NavbarMenu = ({ idMenus }: Props) => {
       });
     };
     if (isMenuBase) return (
-      <div id={`EXMenuID-${menuID}`} className="flex w-full gap-2">
+      <div key={menuID} id={`EXMenuID-${menuID}`} className="flex w-full gap-2">
         {<ViewMenuList />}
       </div>
     );
     else return (
-      <div id={`EXMenuID-${menuID}`} className="flex flex-col">
+      <div key={menuID} id={`EXMenuID-${menuID}`} className="flex flex-col">
         {<ViewMenuList />}
       </div>
     );
@@ -95,7 +97,7 @@ const NavbarMenu = ({ idMenus }: Props) => {
   const [menu] = useState<routeListType[]>(LoopingAuthMenu());
   const navigate = useNavigate();
   return (
-    <div className="w-full">
+    <div id='navbar-menu' className="w-full">
       {menu && <LoopingViewMenu menuID={0} menuAuthList={menu} isMenuBase={true} routerMap='/apps'/>}
     </div>
   );

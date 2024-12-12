@@ -1,6 +1,6 @@
 from django.urls import path
 from .views.common import auth
-from .views.setting import user
+from .views.setting import user,group
 
 urlpatterns = [
     # auth
@@ -8,6 +8,9 @@ urlpatterns = [
     # user {page,rage,filter}
     path("user/",user.UserView.as_view(), name="user"),
     path("user/<str:username>/",user.UserDetailView.as_view(), name="user_detail"),
-    path("user/<str:username>/cp",user.UserChangePasswordView.as_view(), name="user_change_password"),
-    # user {page,rage,filter}
+    path("user/<str:username>/change_password",user.UserChangePasswordView.as_view(), name="user_change_password"),
+    # group {page,rage,filter}
+    path("group/",group.GroupView.as_view(), name="group"),
+    path("group/<str:name>/",group.GroupDetailView.as_view(), name="group_detail"),
+
 ]

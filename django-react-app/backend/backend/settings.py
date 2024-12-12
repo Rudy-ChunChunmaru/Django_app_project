@@ -125,7 +125,7 @@ DEV_SQL_Lite_DB = {
 }
 
 DATABASES = {
-    'default': DEV_MYSQL_DB
+    'default': DEV_SQL_Lite_DB
 }
 
 

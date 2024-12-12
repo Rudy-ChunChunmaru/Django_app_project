@@ -1,14 +1,10 @@
-from rest_framework import generics,mixins,filters,status
+from rest_framework import generics,filters
 from rest_framework.response import Response
 
 from rest_framework.permissions import AllowAny,IsAuthenticated
-from rest_framework.views import APIView
 
 from django.contrib.auth.models import User
-
 from web.serializers.setting import UserGetCreateSerializer,UserRetrivingUpdateDestroySerializer,UserChangePasswordSerializer
-from web.views.common.function import DataProses
-import json
 
 class UserView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -33,15 +29,15 @@ class UserChangePasswordView(generics.GenericAPIView):
     def put(self,request,*args,**kwargs):
         username = kwargs['username']
       
-        if not request.data.get('password'):
-            return Response({'error': 'password is required'}, status=400)
+        if not request.data.get('old_password'):
+            return Response({'error': 'old_password is required'}, status=400)
         if not request.data.get('new_password'):
             return Response({'error': 'new_password is required'}, status=400)
 
-        password = request.data['password']
+        old_password = request.data['old_password']
         new_password = request.data['new_password']
         obj = User.objects.get(username=username)
-        if not obj.check_password(raw_password=password):
+        if not obj.check_password(raw_password=old_password):
             return Response({'error': 'password not match'}, status=400)
         else:
             obj.set_password(new_password)

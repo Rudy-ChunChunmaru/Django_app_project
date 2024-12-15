@@ -6,9 +6,6 @@ class Menu(models.Model):
     id = models.AutoField(primary_key=True)
     Menu_category = models.CharField(max_length=50,null=True,blank=True)
     Menu_title = models.CharField(max_length=50,null=True,blank=True)
-    Menu_route = models.CharField(max_length=50,null=True,blank=True)
-    Menu_rank = models.IntegerField(null=True)
-    Menu_childernId = models.IntegerField(null=True,blank=True)
 
     class Meta:
         permissions = []
@@ -19,8 +16,8 @@ class Menu(models.Model):
 
 class UserMenuPermission(models.Model):
     id = models.AutoField(primary_key=True)
-    Menu = models.ForeignKey(to=Menu,related_name='FK_UserMenuPermission_Menu',on_delete=models.RESTRICT)
-    User = models.ForeignKey(to=User,related_name='FK_UserMenuPermission_User',on_delete=models.RESTRICT)
+    Menu = models.ForeignKey(to=Menu,related_name='FK_UserMenuPermission_Menu',on_delete=models.RESTRICT,unique=True)
+    User = models.ForeignKey(to=User,related_name='FK_UserMenuPermission_User',on_delete=models.RESTRICT,unique=True)
 
     class Meta:
         permissions = []
@@ -32,8 +29,8 @@ class UserMenuPermission(models.Model):
 
 class GroupMenuPermission(models.Model):
     id = models.AutoField(primary_key=True)
-    Menu = models.ForeignKey(to=Menu,on_delete=models.RESTRICT)
-    Group = models.ForeignKey(to=Group,on_delete=models.RESTRICT)
+    Menu = models.ForeignKey(to=Menu,on_delete=models.RESTRICT,unique=True)
+    Group = models.ForeignKey(to=Group,on_delete=models.RESTRICT,unique=True)
 
     class Meta:
         permissions = []

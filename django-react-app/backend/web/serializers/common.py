@@ -34,7 +34,7 @@ class UserGroupSerializer(serializers.ModelSerializer):
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = ['id','Menu_title','Menu_route','Menu_rank','Menu_childernId']
+        fields = ['id','Menu_category','Menu_title']
 
 class UserMenuPermissionSerializer(serializers.ModelSerializer):
     Menu = MenuSerializer(many=False, read_only=True)

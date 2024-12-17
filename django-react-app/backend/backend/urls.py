@@ -25,7 +25,9 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="get_token"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
     # app
-    path("api/web/", include("web.urls")),
+    path("api/web/common/", include("web.urls.common")),
+    path("api/web/setting/", include("web.urls.setting")),
+    path("api/web/master/", include("web.urls.master")),
     # midtrans
     path("api/", include("midtrans.urls")),
 ]

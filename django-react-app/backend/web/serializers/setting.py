@@ -64,11 +64,13 @@ class GroupRetrivingUpdateDestroySerializer(serializers.ModelSerializer):
 
 
 class MenuGetCreateSerializer(serializers.ModelSerializer):
+    url=serializers.HyperlinkedIdentityField(view_name="menu_detail",lookup_field="id")
     class Meta:
         model = Menu
-        fields = ["id","Menu_title","Menu_category"]
+        fields = ["id","Menu_title","Menu_category","url"]
         extra_kwargs = {
             "id":{"read_only":True},
+            "url":{"read_only":True},
         }
 
 class MenuRetrivingUpdateDestroySerializer(serializers.ModelSerializer):
@@ -79,17 +81,46 @@ class MenuRetrivingUpdateDestroySerializer(serializers.ModelSerializer):
             "id":{"read_only":True},
         }
 
-class UserMenuPermissionRetrivingGetCreateUpdateDestroySerializer(serializers.ModelSerializer):
+class UserMenuPermissionGetCreateDestroySerializer(serializers.ModelSerializer):
+    menutitle = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
     class Meta:
         model = UserMenuPermission
-        fields = ["User"]
-        extra_kwargs = {}
+        fields = ["id","Menu","User","menutitle","username"]
+        extra_kwargs = {
+            "id":{"read_only":True},
+            "Menu":{"write_only":True},
+            "menutitle":{"read_only":True},
+            "User":{"write_only":True},
+            "username":{"read_only":True},
+        }
 
-class GroupMenuPermissionRetrivingGetCreateUpdateDestroySerializer(serializers.ModelSerializer):
+    def get_menutitle(self,obj):
+        return obj.Menu.Menu_title
+
+    def get_username(self,obj):
+        return obj.User.username
+
+class GroupMenuPermissionGetCreateDestroySerializer(serializers.ModelSerializer):
+    menutitle = serializers.SerializerMethodField()
+    groupname = serializers.SerializerMethodField()
     class Meta:
         model = GroupMenuPermission
-        fields = ["Group"]
-        extra_kwargs = {}
+        fields = ["id","Menu","Group","menutitle","groupname"]
+        extra_kwargs = {
+            "id":{"read_only":True},
+            "Menu":{"write_only":True},
+            "menutitle":{"read_only":True},
+            "Group":{"write_only":True},
+            "groupname":{"read_only":True},
+        }
+
+    def get_menutitle(self,obj):
+        return obj.Menu.Menu_title
+
+    def get_groupname(self,obj):
+        return obj.Group.name
+
 
 
 

@@ -24,7 +24,7 @@ const Login = ({dataApps,setDataApps}: Props) => {
     if (username !== "" && password !== "") {
       try {
         setLoading(true);
-        const res = await api.post("api/web/auth/", { username, password });
+        const res = await api.post("api/web/common/auth/", { username, password });
         const dataUser: any = jwtDecode(res?.data?.data);
         if (dataUser?.status){
           localStorage.setItem(USER_TOKEN, res.data.data);

@@ -11,7 +11,7 @@ class Menu(models.Model):
         permissions = []
 
     def __str__(self):
-        return "{'id':%s,'title':%s}" % (self.id, self.Menu_title)
+        return "%s" % (self.Menu_title)
     
 
 class UserMenuPermission(models.Model):
@@ -25,7 +25,7 @@ class UserMenuPermission(models.Model):
         ordering = ['Menu']
 
     def __str__(self):
-        return "%s | %s | %s" % (self.id, self.Menu, self.User)
+        return "%s" % (self.User)
 
 class GroupMenuPermission(models.Model):
     id = models.AutoField(primary_key=True)
@@ -38,6 +38,6 @@ class GroupMenuPermission(models.Model):
         ordering = ['Menu']
 
     def __str__(self):
-        return "%s | %s | %s" % (self.id, self.Menu, self.Group)
+        return "%s" % (self.Group)
 
 

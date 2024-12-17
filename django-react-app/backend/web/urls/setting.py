@@ -1,10 +1,7 @@
 from django.urls import path
-from .views.common import auth
-from .views.setting import user,group,menu
+from web.views.setting import user,group,menu
 
 urlpatterns = [
-    # auth
-    path("auth/",auth.AuthUserLogin.as_view(), name="web_auth"),
     # user {page,rage,filter}
     path("user/",user.UserView.as_view(), name="user"),
     path("user/<str:username>/",user.UserDetailView.as_view(), name="user_detail"),
@@ -15,7 +12,9 @@ urlpatterns = [
     # menu {page,rage,filter}
     path("menu/",menu.MenuView.as_view(), name="menu"),
     path("menu/<int:id>/",menu.MenuDetailView.as_view(), name="menu_detail"),
-    path("menu/<int:Menu>/users",menu.MenuUserPermissionView.as_view(), name="menu_detail_users"),
-    path("menu/<int:Menu>/groups",menu.MenuGroupPermissionView.as_view(), name="menu_detail_groups"),
-
+    # menu permit {page,rage,filter}
+    path("menupermituser/",menu.MenuUserPermissionView.as_view(), name="menu_permit_users"),
+    path("menupermituser/<int:id>/",menu.MenuUserPermissionDetailView.as_view(), name="menu_permit_users_detail"),
+    path("menupermitgroup/",menu.MenuGroupPermissionView.as_view(), name="menu_permit_groups"),
+    path("menupermitgroup/<int:id>/",menu.MenuGroupPermissionDetailView.as_view(), name="menu_permit_users_detail"),
 ]

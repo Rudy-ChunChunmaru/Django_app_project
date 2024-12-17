@@ -20,7 +20,7 @@ const User = (props: Props) => {
       dark:border-gray-500
     ">List User</div>
       <div className="w-full">
-        <TableGrid link={"api/web/user/"} coloms={usercolom} />
+        <TableGrid link={"api/web/setting/user/"} coloms={usercolom} />
       </div>
   </div>;
 };

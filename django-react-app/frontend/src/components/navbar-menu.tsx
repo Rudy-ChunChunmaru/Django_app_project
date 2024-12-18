@@ -69,16 +69,16 @@ const NavbarMenu = ({ idMenus }: Props) => {
             </div>
           );
         else return (
-          <div
-          key={key}
-          id={`sub_menu-${val.id}`}
-          className="relative border-t-2 border-x-2 px-2 rounded-md hover:cursor-pointer
-          border-2 border-gray-300 bg-gray-200 hover:bg-gray-300 
-          dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500"
-          onClick={()=>navigate(`${routerMap}/${val.routeMenu}`)}
+          <button
+            key={key}
+            id={`sub_menu-${val.id}`}
+            className="relative border-t-2 border-x-2 px-2 rounded-md hover:cursor-pointer
+            border-2 border-gray-300 bg-gray-200 hover:bg-gray-300 
+            dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500"
+            onClick={()=>navigate(`${routerMap}/${val.routeMenu}`)}
           >
             {val.routeTitle}
-          </div>
+          </button>
         );
       });
     };

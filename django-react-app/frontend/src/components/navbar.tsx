@@ -41,7 +41,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
     }
 
     return (
-      <div 
+      <button 
         className='rounded-md px-2 transition-colors border-2
         border-gray-300 bg-gray-200 hover:bg-gray-300 
         dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
@@ -56,20 +56,20 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
             user dont have first name and last name
           </div>
         )}
-      </div>
+      </button>
     );
   };
 
   const Login = () => {
     return (
-      <div
+      <button
         className='rounded-md px-2 transition-colors border-2
         border-gray-300 bg-gray-200 hover:bg-gray-300 
         dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500' 
         onClick={() => navigate("/login")}
       >
         <strong>Login</strong>
-      </div>
+      </button>
     );
   };
 
@@ -116,8 +116,8 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
           border-gray-300 bg-gray-100  
           dark:border-gray-500 dark:bg-gray-700'>
       <div className="flex w-full justify-between px-3 py-1">
-        <div 
-          className='group my-auto flex h-fit w-fit gap-2 px-1 rounded-md transition 
+        <button 
+          className='group my-auto flex h-fit w-fit hover:gap-5 px-1 rounded-md transition 
           border-2 border-gray-300 bg-gray-200 hover:bg-gray-300 
           dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
           onClick={()=>{loginStatus ? navigate("/apps") : navigate("/") }}>
@@ -128,11 +128,10 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
               alt={VariableApps.LogoApps}
             />
           </div>
-          <div className='border-x-[1px] border-black' ></div>
           <div className="my-auto w-[100%] group-hover:border-b-2 border-gray-500 dark:border-gray-300">
             <strong>{VariableApps.TitleApps}</strong>
           </div>
-        </div>
+        </button>
         
         <div className="flex flex-row justify-between min-w-[20%] max-w-fit">
           <div className="flex w-full  flex-col px-2">
@@ -140,7 +139,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
             {loginStatus ? <Logout /> : <Login />}
           </div>
           <div className='w-fit h-full'>
-            <div 
+            <button 
               className='rounded-md transition-colors h-fit py-1 border-2
               border-gray-300 bg-gray-200 hover:bg-gray-300 
               dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500'
@@ -155,7 +154,7 @@ const Navbar = ({dataApps,setDataApps}:navbarType) => {
                   <SunIcon className="fill-current" /> : <MoonIcon className="fill-current" />
                 }
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>

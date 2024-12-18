@@ -5,7 +5,7 @@ type BottomType = {
 
 const Bottom = ({}:BottomType) => {
 return <div 
-className='text-xs flex w-screen flex-row justify-between px-5 border-t-2
+className='text-xs flex w-[100%] flex-row justify-between px-5 border-t-2
 border-gray-300 bg-gray-100  
 dark:border-gray-500 dark:bg-gray-700'
 >

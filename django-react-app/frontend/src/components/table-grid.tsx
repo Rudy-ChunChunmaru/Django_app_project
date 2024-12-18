@@ -6,6 +6,8 @@ import "gridjs/dist/theme/mermaid.css";
 import { css } from '@emotion/css';
 
 import api,{urlBase} from "@/logic/api";
+import { auth } from "./protected-route";
+import { ACCESS_TOKEN } from "@/logic/constants";
 
 export type tableColomType = {
     lable:string
@@ -20,6 +22,8 @@ type tableGridType = {
 }
 
 const TableGrid = ({link,coloms}:tableGridType) => {
+    const navigate = useNavigate();
+
     const getDataList = async () =>{
         try{
             const res =  await api.options(link);
@@ -35,6 +39,19 @@ const TableGrid = ({link,coloms}:tableGridType) => {
     }
 
     const TemplateWindowListView = () =>{
+        const [reload,setReload] = useState<number>(0)
+        const [authToken,setAuthToken] = useState<string>('')
+        const strUrl = urlBase+link;
+        
+        const objHeaderUrl= {
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${authToken}`
+        };
+
+        useEffect(()=>{
+            auth().then((data)=> data ? setAuthToken(`${localStorage.getItem(ACCESS_TOKEN)}`) : navigate('/logout'))
+        },[reload])
+
         return <div className="text-xs">
             <Grid 
                 className={{
@@ -83,10 +100,7 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                 search={{
                     server: {
                       url: (prev, keyword) => {
-                        if(keyword)
-                            return `${prev}?search=${keyword}`
-                        else
-                            return prev
+                        return `${prev}${prev.includes('?') ? '&' : '?'}search=${keyword}`
                       }
                     }
                 }}
@@ -94,31 +108,32 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                     multiColumn: false,
                     server: {
                         url: (prev, columns) => {
-                            if (!columns.length) return prev;
-                            const col = columns[0];
-                            const dir = col.direction === 1 ? '' : '-';
-                            let colName = [...coloms.map((valcol)=>valcol.colom)];
-                            if (prev.includes('search=') || prev.includes('ordering='))
-                                return `${prev}&ordering=${dir}${colName[`${col.index}`]}`;
-                            else
-                                return `${prev}?ordering=${dir}${colName[`${col.index}`]}`;
+                            let col;
+                            let dir = '';
+                            let colsortName = [...coloms.map((valcol)=>valcol.colom)];
+                            let index = 0;
+                            if (columns.length){
+                                col = columns[0];
+                                index = col.index;
+                                dir = col.direction === 1 ? '' : '-';
+                                colsortName = [...coloms.map((valcol)=>valcol.colom)];
+                            }
+                            return `${prev}${prev.includes('?') ? '&' : '?'}ordering=${dir}${colsortName[`${index}`]}`;
                         }
                     }
                 }}
                 pagination={{
-                    limit: 6,
+                    limit: 10,
                     server: {
-                        url: (prev, page, limit) => {
-                            if (prev.includes('search=') || prev.includes('ordering='))
-                                return `${prev}&limit=${limit}&offset=${page * limit}`
-                            else
-                                return `${prev}?limit=${limit}&offset=${page * limit}`
-                                
+                        url: (prev, page, limit) => {  
+                            if(!prev.includes('ordering=')) setReload(reload+1)
+                            return `${prev}${prev.includes('?') ? '&' : '?'}limit=${limit}&offset=${page * limit}`
                         }
                     }
                 }}
                 server={{
-                    url:`${urlBase+link}`,
+                    url:strUrl,
+                    headers:objHeaderUrl,
                     then:(data:any)=>{
                         return data.results.map(
                             (val:any)=>[
@@ -185,7 +200,6 @@ const TableGrid = ({link,coloms}:tableGridType) => {
             setInputForm([...inputFormEdit])
         }
 
-        const navigate = useNavigate();
         const submitForm = async (e:any) => {
             e.preventDefault();
             let param:any= new Object()
@@ -273,14 +287,14 @@ const TableGrid = ({link,coloms}:tableGridType) => {
         element:JSX.Element
     }
     const TemplateWindowButton = ({name,element}:TemplateWindowButtonType) => {
-        return(<div 
-            className="relative border-2 rounded-md py-1 px-2 transition-colors top-[0.2rem] w-fit
+        return(<button 
+            className="border-2 rounded-md px-2 transition-colors w-fit
             bg-gray-100  border-gray-300 hover:bg-gray-100
             dark:bg-gray-700 dark:border-gray-500 dark:hover:bg-gray-500"
-            onClick={()=>setWindowView(element)}
+            onClick={(e)=>{e.preventDefault();setWindowView(element)}}
         >
             {name}
-        </div>)
+        </button>)
     }
 
     const [dataList,setDataList] = useState<any>();
@@ -288,6 +302,7 @@ const TableGrid = ({link,coloms}:tableGridType) => {
     const [windowView,setWindowView] = useState<JSX.Element>(<TemplateWindowListView />);
 
     useEffect(()=>{
+        auth().then((data)=> data == false && navigate('/logout'))
         getDataList().then(
             res=>{
                 setDataList(res)
@@ -301,19 +316,21 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                 else {
                     alert('error load list view backend!!!')
                 }
-                
+                  
             }
-        ).catch(()=>{alert('error load data to backend!!!');})
-    },[])
+        ).catch(
+            ()=>{alert('error load data to backend!!!');}
+        )   
+    },[windowView])
 
     return <div className="w-full h-[100%]">
         {dataList ?
         (<div className="flex flex-col w-full h-[100%]">
-            <div className="flex flex-auto gap-2 justify-self-start h-fit w-[100%] px-1">
+            <div className="flex flex-auto gap-2 justify-self-start h-fit w-[100%] px-1 pt-1">
                 {window && window.map((val)=><TemplateWindowButton name={val.name} element={val.element} />)}
             </div>
             <div className="relative w-full h-[100%]">
-                {dataList && windowView}
+                {window && windowView}
             </div>
         </div>)
         : <div className="w-full text-center bg-white rounded-md text-black">loading ...</div>}  

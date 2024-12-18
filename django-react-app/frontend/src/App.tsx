@@ -59,11 +59,11 @@ function App() {
   },[dataApps])
 
   return (
-    <div className='relative text-[1rm] text-black dark:text-white w-screen h-screen flex flex-col justify-between overflow-none'>
-      <div className='w-full h-fit text-sm'>
+    <div className='relative text-[1rm] text-black dark:text-white w-[100%] h-screen flex flex-col justify-between overflow-none'>
+      <div className='w-[100%] h-fit sticky top-0 overflow-none text-sm'>
         <Navbar dataApps={dataApps} setDataApps={setDataApps} />
       </div>
-      <div className='w-full h-full overflow-none text-normal'>
+      <div className='w-[100%] h-full text-normal'>
         <Routes>
           {RouteApps()}
           <Route key="-1" index element={<Index />}></Route>
@@ -72,7 +72,7 @@ function App() {
           <Route key="-4" path="*" element={<ErrorNotFound />} />
         </Routes>
       </div>
-      <div className='w-full overflow-none text-sm'>
+      <div className='w-[100%] sticky bottom-0 overflow-none text-sm'>
           <Bottom />
       </div>
     </div>

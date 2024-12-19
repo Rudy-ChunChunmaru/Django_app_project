@@ -2,11 +2,9 @@ import axios from "axios";
 import { ACCESS_TOKEN } from "./constants";
 
 export const urlBase = import.meta.env.VITE_API_URL
+export const urlBaseLocal = import.meta.env.VITE_API_URL_LOCAL
 
-const api = axios.create({
-  baseURL: urlBase,
-});
-
+const api = axios.create({baseURL: urlBase,});
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(ACCESS_TOKEN);
@@ -21,7 +19,12 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
 export default api;
+
+
+
+
+
+
 
 

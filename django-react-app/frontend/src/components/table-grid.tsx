@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Grid,_ } from "gridjs-react";
 import "gridjs/dist/theme/mermaid.css";
 import { css } from '@emotion/css';
+import {PencilSquareIcon,TrashIcon} from "@heroicons/react/24/solid";
 
-import api,{urlBase} from "@/logic/api";
+import api,{urlBase,urlBaseLocal} from "@/logic/api";
 import { auth } from "./protected-route";
 import { ACCESS_TOKEN } from "@/logic/constants";
 
@@ -47,6 +48,61 @@ const TableGrid = ({link,coloms}:tableGridType) => {
             'Content-Type': 'application/json',
             'Authorization':`Bearer ${authToken}`
         };
+
+        const Retrivingdata = ({UrlDetail}:{UrlDetail:string}) => {
+            const getRuleData = async () => {
+                try{
+                    const res =  await api.options(UrlDetail.replace(urlBaseLocal,urlBase));
+                    const dataRespon = res?.data;
+                    if(dataRespon){
+                        return dataRespon
+                    }else{
+                        return {}
+                    }
+                } catch (error: any) {
+                    return {}
+                }
+            }
+
+            return  <button className="w-5 rounded-md transition-colors border-2
+                border-gray-300 bg-gray-200 hover:bg-gray-300 text-dark
+                dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500 dark:text-white"
+                onClick={(e)=>{
+                    e.preventDefault();
+                    setWindowView(<div className="w-full text-center bg-white rounded-md text-black">loading ...</div>)
+                    auth().then((data)=> data == false && navigate('/logout'))
+                    getRuleData().then((res)=>{
+                        setWindowView(<TemplateWindowFromView rule={res?.actions?.PUT} method="put" url={UrlDetail.replace(urlBaseLocal,'')} />)
+                    }).catch(()=>{
+                        alert('fail !!!')
+                    })
+                }}
+                >
+                <PencilSquareIcon className="fill-current"  />
+            </button>
+        }
+
+        const Deletedata = ({UrlDetail}:{UrlDetail:string}) => {
+            return  <button className="w-5 rounded-md transition-colors border-2
+                border-gray-300 bg-gray-200 hover:bg-gray-300 text-dark
+                dark:border-gray-500 dark:bg-gray-700 dark:hover:bg-gray-500 dark:text-white"
+                onClick={(e)=>{
+                    e.preventDefault()
+                    if (confirm('Are you sure to delete this item? \nEither OK or Cancel.')) {
+                        auth().then((data)=> data == false && navigate('/logout'))
+                        api.delete(UrlDetail.replace(urlBaseLocal,'')).then(()=>{
+                            setReload(reload+1)
+                        }).catch(()=>{
+                            alert('fail !!!')
+                        })
+                    }else{
+                        setReload(reload+1)
+                    }
+                }}
+                >
+                <TrashIcon className="fill-current"  />
+            </button>
+        }
 
         useEffect(()=>{
             auth().then((data)=> data ? setAuthToken(`${localStorage.getItem(ACCESS_TOKEN)}`) : navigate('/logout'))
@@ -91,8 +147,18 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                 autoWidth={true}
                 columns={[
                     ...coloms.map((valcol)=>{
-                        if(valcol.type == 'navigate')
-                            return {name:valcol.lable,field:valcol.colom,formatter:(cells:any) => _(<a className="border-b-2 border-blue-600 text-blue-600 hover:font-bold transition-transform" onClick={()=>alert(cells)}>{cells}</a>)}
+                        if(valcol.type == 'action')
+                            return {name:valcol.lable,field:valcol.colom,formatter:(cells:any) => {
+                                    if(typeof cells == 'string'){
+                                        return _(
+                                            <div className="flex gap-3">
+                                                <Retrivingdata UrlDetail={cells} />
+                                                <Deletedata UrlDetail={cells} />
+                                            </div>
+                                        )
+                                    }else return <>Error Url ...</>
+                                }
+                            }
                         else
                             return {name:valcol.lable,field:valcol.colom}
                     })
@@ -154,7 +220,7 @@ const TableGrid = ({link,coloms}:tableGridType) => {
         </div>
     }
 
-    const TemplateWindowFromView = ({post}:{post:any}) => {
+    const TemplateWindowFromView = ({rule,method,url}:{rule:any,method:string,url?:string}) => {
         type inputFormType = {
             colom:string,
             name:string,
@@ -168,25 +234,39 @@ const TableGrid = ({link,coloms}:tableGridType) => {
         }
 
         const [inputForm,setInputForm] = useState<inputFormType[]>(
-            [...Object.keys(post).map((val)=>
+            [...Object.keys(rule).map((val)=>
                 {  
                     let inputvalue:string|boolean|number
-                    if(post[`${val}`].type == 'boolean') inputvalue = false
+                    if(rule[`${val}`].type == 'boolean') inputvalue = false
                     else inputvalue = ''
                     return {
                         colom:val,
-                        name:post[`${val}`].label,
+                        name:rule[`${val}`].label,
                         value:inputvalue,
-                        type:post[`${val}`].type,
-                        required:post[`${val}`].required,
-                        maxlength:post[`${val}`].max_length,
-                        readonly:post[`${val}`].read_only,
-                        helptext:post[`${val}`]?.help_text,
+                        type:rule[`${val}`].type,
+                        required:rule[`${val}`].required,
+                        maxlength:rule[`${val}`].max_length,
+                        readonly:rule[`${val}`].read_only,
+                        helptext:rule[`${val}`]?.help_text,
                         password:val == 'password' ? true: false
                     }
                 }
             )]
         );
+
+        const getDataList = async () =>{
+            try{
+                const res =  await api.get(url);
+                const dataRespon = res?.data;
+                if(dataRespon){
+                    return dataRespon
+                }else{
+                    return {}
+                } 
+            } catch (error: any) {
+                return {}
+            }
+        }
 
         const onChangeInput = (e:any) => {
             let inputFormEdit = [...inputForm]
@@ -207,9 +287,17 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                 param[valueInputForm.colom] = valueInputForm.value
             })
             try{
-                await api.post(link, param);
-                alert('success input !!!')
-                return navigate(0)
+                auth().then((data)=> data == false && navigate('/logout'))
+                if(method == 'post'){
+                    await api.post(link, param);
+                    alert('success input !!!')
+                }   
+                else if(method == 'put'){
+                    await api.put(url, param);
+                    alert('success change data !!!')
+                }
+                else alert('error metod !!!')
+                setWindowView(<TemplateWindowListView />)
             } catch (error: any) {
                 if(error.response.data){
                     const arrayKeysError = Object.keys(error.response.data)
@@ -222,6 +310,22 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                     alert('error input form !!!')
             }
         }
+
+        useEffect(()=>{
+            if(method == 'put' && url){
+                getDataList().then(
+                    (data:any)=>{
+                        setInputForm([...inputForm.map((value)=>{
+                            return {...value,value:data[value.colom]}
+                        })])
+                    }
+                ).catch(
+                    ()=>{
+                        alert('error get data list !!!')
+                    }
+                )
+            }
+        },[])
     
         return <div className="px-2 pt-1 w-[100%] h-[100%]">
             <form 
@@ -232,7 +336,7 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                         border-gray-300
                         dark:border-gray-500
                         "
-                >Create New</div>
+                >{method == 'post' ? 'Create New' : 'Edit View'}</div>
                 <div className="grid grid-cols-1 px-2">
                     {inputForm.map((val,key)=>{
                         if(!val.readonly){
@@ -289,7 +393,7 @@ const TableGrid = ({link,coloms}:tableGridType) => {
     const TemplateWindowButton = ({name,element}:TemplateWindowButtonType) => {
         return(<button 
             className="border-2 rounded-md px-2 transition-colors w-fit
-            bg-gray-100  border-gray-300 hover:bg-gray-100
+            bg-gray-100  border-gray-300 hover:bg-gray-300
             dark:bg-gray-700 dark:border-gray-500 dark:hover:bg-gray-500"
             onClick={(e)=>{e.preventDefault();setWindowView(element)}}
         >
@@ -309,7 +413,7 @@ const TableGrid = ({link,coloms}:tableGridType) => {
                 if(window != undefined) {
                     if(res?.actions?.POST){
                         if(window.find((val)=>val.name == 'Create New') == undefined){
-                            setWindow([...window,{name:'Create New',element:<TemplateWindowFromView post={res?.actions?.POST} />}])
+                            setWindow([...window,{name:'Create New',element:<TemplateWindowFromView rule={res?.actions?.POST} method="post" />}])
                         }
                     }
                 }
